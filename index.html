@@ -733,7 +733,7 @@
 
       document.getElementById("implication-list").innerHTML = [
         `<li><strong>Capability:</strong> ${state.bank}'s technology mix gap vs peers (${gapText(techSel, techPeer)}) points to org-design and hiring priorities.</li>`,
-        `<li><strong>Sourcing & retention:</strong> net flow ${flows.net >= 0 ? "in favor of" : "against"} ${state.bank} (${num(flows.net)}) should shape competitor targeting and stay interviews.</li>`,
+        `<li><strong>Sourcing & retention:</strong> net flow ${flows.net >= 0 ? 'in favor of' : 'against'} ${state.bank} (${num(flows.net)}) should shape competitor targeting and stay interviews.</li>`,
         `<li><strong>Footprint:</strong> profiles-per-branch is a density proxy only — pair with APRA branch contraction when planning workforce transition.</li>`,
         `<li><strong>Execution risk:</strong> Wilson intervals quantify sampling precision; LinkedIn coverage bias remains even when intervals are tight.</li>`
       ].join("");
@@ -793,7 +793,7 @@
         const idx = med ? share / med : null;
         const sparse = (cell?.n || 0) < MIN_CELL;
         const bg = idx == null ? "#f0ebe3" : idx >= 1.2 ? "#d9f0e5" : idx <= 0.8 ? "#f3d7d3" : "#f6f4ef";
-        html += `<tr><td>${prettyFunc(fn)}</td><td>${pct(share)}</td><td>${pct(med)}</td><td style="background:${bg}">${idx == null ? "n/a" : idx.toFixed(2)}${sparse ? ' <span class="sparse">sparse</span>' : ""}</td><td>${num(cell?.n)}</td></tr>`;
+        html += `<tr><td>${prettyFunc(fn)}</td><td>${pct(share)}</td><td>${pct(med)}</td><td style="background:${bg}">${idx == null ? 'n/a' : idx.toFixed(2)}${sparse ? ' <span class="sparse">sparse</span>' : ''}</td><td>${num(cell?.n)}</td></tr>`;
       });
       html += "</tbody></table>";
       document.getElementById("heatmap").innerHTML = html;
@@ -897,7 +897,7 @@
       }
 
       document.getElementById("career-table").innerHTML = transitions.map(r =>
-        `<tr><td>${prettyFunc(r.from_function)}</td><td>${prettyFunc(r.to_function)}</td><td>${num(r.n)}</td><td>${r.n < MIN_CELL ? "sparse" : ""}</td></tr>`
+        `<tr><td>${prettyFunc(r.from_function)}</td><td>${prettyFunc(r.to_function)}</td><td>${num(r.n)}</td><td>${r.n < MIN_CELL ? 'sparse' : ''}</td></tr>`
       ).join("") || `<tr><td colspan="4">No transitions into ${prettyFunc(dest)} for ${state.bank}</td></tr>`;
 
       const tenure = (DATA.workstreams?.career_paths?.tenure_into_current_function || [])
@@ -926,7 +926,7 @@
               callbacks: {
                 afterLabel: (ctx) => {
                   const r = tenure[ctx.dataIndex];
-                  return `n=${num(r.n)}${r.n < MIN_CELL ? " (sparse)" : ""}`;
+                  return `n=${num(r.n)}${r.n < MIN_CELL ? ' (sparse)' : ''}`;
                 }
               }
             }
@@ -979,7 +979,7 @@
         .filter(r => years.includes(String(r.year)))
         .map(r => {
           const idx = base[r.bank_label] ? 100 * r.branches / base[r.bank_label] : null;
-          return `<tr><td>${r.bank_label}</td><td>${r.year}</td><td>${num(r.branches)}</td><td>${idx == null ? "n/a" : idx.toFixed(1)}</td></tr>`;
+          return `<tr><td>${r.bank_label}</td><td>${r.year}</td><td>${num(r.branches)}</td><td>${idx == null ? 'n/a' : idx.toFixed(1)}</td></tr>`;
         }).join("");
 
       // State quadrant: profiles_per_branch vs technology share in state
@@ -1056,9 +1056,9 @@
         const fill = profiles ? `rgba(193,73,83,${0.15 + 0.75 * t})` : "#efeae1";
         const selected = state.geo === s.id;
         return `<g>
-          <rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="6" fill="${fill}" stroke="${selected ? "#0f4c5c" : "#ddd6c8}" stroke-width="${selected ? 2.5 : 1}" />
+          <rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="6" fill="${fill}" stroke="${selected ? '#0f4c5c' : '#ddd6c8'}" stroke-width="${selected ? 2.5 : 1}" />
           <text x="${s.x + s.w / 2}" y="${s.y + s.h / 2}" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1c1a16">${s.id}</text>
-          <text x="${s.x + s.w / 2}" y="${s.y + s.h / 2 + 14}" text-anchor="middle" font-size="9" fill="#5c574e">${profiles ? num(profiles) : "—"}</text>
+          <text x="${s.x + s.w / 2}" y="${s.y + s.h / 2 + 14}" text-anchor="middle" font-size="9" fill="#5c574e">${profiles ? num(profiles) : '—'}</text>
         </g>`;
       }).join("");
       document.getElementById("state-map").innerHTML =
@@ -1188,7 +1188,7 @@
         }
       });
       document.getElementById("starts-caption").textContent =
-        `Each line sums to ~100% within the selected period for that bank. Period filter: ${state.period === "all" ? "2018–2025" : state.period}.`;
+        `Each line sums to ~100% within the selected period for that bank. Period filter: ${state.period === 'all' ? '2018–2025' : state.period}.`;
     }
 
     function renderEvidence() {
