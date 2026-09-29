@@ -1,0 +1,4675 @@
+{
+  "title": "Big-four Australian bank workforce signals",
+  "subtitle": "LinkedIn snapshot joined to APRA, ABS, and TEQSA public data. Aggregate rates only.",
+  "generated_at": "2026-09-29T02:38:38.944829+00:00",
+  "caveat": "LinkedIn coverage is incomplete and biased toward people who maintain public profiles. These are relative market signals, not staff census figures. Cells with n < 30 are treated as sparse. Binomial shares use Wilson 95% intervals where shown.",
+  "method": {
+    "wilson": "95% Wilson score intervals for binomial shares",
+    "sparse_rule": "cells with n < 30 treated as sparse",
+    "score": "0\u2013100 from coverage (40), median cell size (35), non-sparse share (25)"
+  },
+  "min_cell": 30,
+  "ranking": [
+    {
+      "id": "decision_products",
+      "title": "Stakeholder decision products",
+      "score": 100.0,
+      "tier": "high",
+      "coverage": 1.0,
+      "median_cell_n": 33528.0,
+      "sparse_cell_share": 0.0,
+      "notes": [
+        "Decision products only emit claims with n \u2265 30 and, where relevant, Wilson intervals.",
+        "This layer inherits bias from LinkedIn coverage; wording stays relative."
+      ]
+    },
+    {
+      "id": "skills_org",
+      "title": "Function mix and org design proxies",
+      "score": 91.5,
+      "tier": "high",
+      "coverage": 0.847,
+      "median_cell_n": 31005.5,
+      "sparse_cell_share": 0.095,
+      "notes": [
+        "Technology/risk/markets shares use titled profiles only; unknown titles excluded.",
+        "Wilson 95% intervals reported for bank-level technology shares.",
+        "About-section coverage is only 44% \u2014 text clustering is not used for claims.",
+        "Certifications remain too sparse for leading indicators."
+      ]
+    },
+    {
+      "id": "public_overlays",
+      "title": "APRA / ABS public overlays",
+      "score": 86.1,
+      "tier": "high",
+      "coverage": 0.71,
+      "median_cell_n": 771.5,
+      "sparse_cell_share": 0.094,
+      "notes": [
+        "LinkedIn density \u2260 staff census; ABS and APRA denominators are official.",
+        "Profiles-per-branch mixes a biased numerator with an administrative denominator.",
+        "Best used for relative ranks across banks/states, not absolute labour-market shares.",
+        "APRA branch counts by SA3 for latest year (Table 1)."
+      ]
+    },
+    {
+      "id": "network",
+      "title": "Employer transition network",
+      "score": 63.7,
+      "tier": "medium",
+      "coverage": 0.464,
+      "median_cell_n": 288.0,
+      "sparse_cell_share": 0.0,
+      "notes": [
+        "Edges require a prior employer in the experience history; many profiles lack usable sequences.",
+        "External company names are free text and may duplicate (Deloitte / Deloitte Australia).",
+        "Inter-bank cells are generally large enough for directional claims."
+      ]
+    },
+    {
+      "id": "career_paths",
+      "title": "Career paths and CBA attractors",
+      "score": 40.6,
+      "tier": "low",
+      "coverage": 0.595,
+      "median_cell_n": 38.0,
+      "sparse_cell_share": 0.436,
+      "notes": [
+        "Uses dated experience rows only; undated careers are excluded.",
+        "Function tags are regex heuristics on titles, so misclassification noise remains.",
+        "Cells with n < 30 are flagged as sparse."
+      ]
+    }
+  ],
+  "headline_defensible": [
+    {
+      "claim": "ANZ technology-title share is 16.6% (95% WI 16.2\u201317.0%)",
+      "n": 37275,
+      "support": "skills_org",
+      "workstream": "skills_org"
+    },
+    {
+      "claim": "CBA technology-title share is 20.1% (95% WI 19.6\u201320.5%)",
+      "n": 33125,
+      "support": "skills_org",
+      "workstream": "skills_org"
+    },
+    {
+      "claim": "NAB technology-title share is 15.8% (95% WI 15.4\u201316.2%)",
+      "n": 28886,
+      "support": "skills_org",
+      "workstream": "skills_org"
+    },
+    {
+      "claim": "Westpac technology-title share is 12.8% (95% WI 12.3\u201313.3%)",
+      "n": 16511,
+      "support": "skills_org",
+      "workstream": "skills_org"
+    },
+    {
+      "claim": "Largest observed inbound competitor flow to CBA includes Westpac\u2192CBA (577 moves).",
+      "n": 577,
+      "support": "network",
+      "workstream": "network"
+    },
+    {
+      "claim": "ANZ India share 24.0% (95% WI 23.6\u201324.4%)",
+      "n": 42644,
+      "support": "skills_org",
+      "workstream": "skills_org"
+    },
+    {
+      "claim": "CBA India share 14.3% (95% WI 14.0\u201314.7%)",
+      "n": 40519,
+      "support": "skills_org",
+      "workstream": "skills_org"
+    },
+    {
+      "claim": "NAB India share 12.5% (95% WI 12.2\u201312.9%)",
+      "n": 33931,
+      "support": "skills_org",
+      "workstream": "skills_org"
+    },
+    {
+      "claim": "Westpac India share 0.5% (95% WI 0.4\u20130.6%)",
+      "n": 19643,
+      "support": "skills_org",
+      "workstream": "skills_org"
+    },
+    {
+      "claim": "VIC shows the highest big-four LinkedIn density vs ABS finance employment (21.6%).",
+      "n": 35504,
+      "support": "public_overlays",
+      "workstream": "public_overlays"
+    }
+  ],
+  "banks": [
+    {
+      "bank": "anz",
+      "profiles": 42644,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "cba",
+      "profiles": 40519,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "nab",
+      "profiles": 33931,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "westpac",
+      "profiles": 19643,
+      "bank_label": "Westpac"
+    }
+  ],
+  "india_share": [
+    {
+      "bank": "anz",
+      "profiles": 42644,
+      "india": 10240,
+      "india_share": 0.24012756777037803,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "cba",
+      "profiles": 40519,
+      "india": 5799,
+      "india_share": 0.143118043387053,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "nab",
+      "profiles": 33931,
+      "india": 4256,
+      "india_share": 0.12543102177949367,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "westpac",
+      "profiles": 19643,
+      "india": 96,
+      "india_share": 0.004887237183729573,
+      "bank_label": "Westpac"
+    }
+  ],
+  "tech_share": [
+    {
+      "bank": "cba",
+      "titled": 33125,
+      "technology": 6644,
+      "technology_share": 0.20057358490566038,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "anz",
+      "titled": 37275,
+      "technology": 6179,
+      "technology_share": 0.16576794097920858,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "nab",
+      "titled": 28886,
+      "technology": 4570,
+      "technology_share": 0.1582081285051582,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "westpac",
+      "titled": 16511,
+      "technology": 2107,
+      "technology_share": 0.1276118951002362,
+      "bank_label": "Westpac"
+    }
+  ],
+  "hiring_year": [
+    {
+      "bank": "anz",
+      "hire_year": 2018,
+      "hires": 909,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "hire_year": 2019,
+      "hires": 1170,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "hire_year": 2020,
+      "hires": 875,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "hire_year": 2021,
+      "hires": 2321,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "hire_year": 2022,
+      "hires": 2375,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "hire_year": 2023,
+      "hires": 2841,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "hire_year": 2024,
+      "hires": 3460,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "hire_year": 2025,
+      "hires": 2790,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "cba",
+      "hire_year": 2018,
+      "hires": 659,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "hire_year": 2019,
+      "hires": 658,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "hire_year": 2020,
+      "hires": 962,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "hire_year": 2021,
+      "hires": 2096,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "hire_year": 2022,
+      "hires": 2728,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "hire_year": 2023,
+      "hires": 2713,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "hire_year": 2024,
+      "hires": 3954,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "hire_year": 2025,
+      "hires": 4170,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "nab",
+      "hire_year": 2018,
+      "hires": 634,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "hire_year": 2019,
+      "hires": 847,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "hire_year": 2020,
+      "hires": 842,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "hire_year": 2021,
+      "hires": 1661,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "hire_year": 2022,
+      "hires": 2339,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "hire_year": 2023,
+      "hires": 2258,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "hire_year": 2024,
+      "hires": 2582,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "hire_year": 2025,
+      "hires": 3340,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "westpac",
+      "hire_year": 2018,
+      "hires": 353,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "hire_year": 2019,
+      "hires": 335,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "hire_year": 2020,
+      "hires": 545,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "hire_year": 2021,
+      "hires": 994,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "hire_year": 2022,
+      "hires": 1133,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "hire_year": 2023,
+      "hires": 898,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "hire_year": 2024,
+      "hires": 1439,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "hire_year": 2025,
+      "hires": 1437,
+      "bank_label": "Westpac"
+    }
+  ],
+  "interbank_moves": [
+    {
+      "prev_bank": "westpac",
+      "bank": "cba",
+      "moves": 577,
+      "from_bank": "Westpac",
+      "to_bank": "CBA"
+    },
+    {
+      "prev_bank": "anz",
+      "bank": "cba",
+      "moves": 435,
+      "from_bank": "ANZ",
+      "to_bank": "CBA"
+    },
+    {
+      "prev_bank": "nab",
+      "bank": "cba",
+      "moves": 413,
+      "from_bank": "NAB",
+      "to_bank": "CBA"
+    },
+    {
+      "prev_bank": "anz",
+      "bank": "nab",
+      "moves": 401,
+      "from_bank": "ANZ",
+      "to_bank": "NAB"
+    },
+    {
+      "prev_bank": "cba",
+      "bank": "westpac",
+      "moves": 346,
+      "from_bank": "CBA",
+      "to_bank": "Westpac"
+    },
+    {
+      "prev_bank": "nab",
+      "bank": "anz",
+      "moves": 300,
+      "from_bank": "NAB",
+      "to_bank": "ANZ"
+    },
+    {
+      "prev_bank": "cba",
+      "bank": "nab",
+      "moves": 276,
+      "from_bank": "CBA",
+      "to_bank": "NAB"
+    },
+    {
+      "prev_bank": "westpac",
+      "bank": "nab",
+      "moves": 267,
+      "from_bank": "Westpac",
+      "to_bank": "NAB"
+    },
+    {
+      "prev_bank": "nab",
+      "bank": "westpac",
+      "moves": 186,
+      "from_bank": "NAB",
+      "to_bank": "Westpac"
+    },
+    {
+      "prev_bank": "anz",
+      "bank": "westpac",
+      "moves": 164,
+      "from_bank": "ANZ",
+      "to_bank": "Westpac"
+    },
+    {
+      "prev_bank": "westpac",
+      "bank": "anz",
+      "moves": 158,
+      "from_bank": "Westpac",
+      "to_bank": "ANZ"
+    },
+    {
+      "prev_bank": "cba",
+      "bank": "anz",
+      "moves": 143,
+      "from_bank": "CBA",
+      "to_bank": "ANZ"
+    }
+  ],
+  "profiles_per_branch": [
+    {
+      "bank": "anz",
+      "au_profiles": 19203,
+      "branches": 284.0,
+      "profiles_per_branch": 67.61619718309859,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "nab",
+      "au_profiles": 27697,
+      "branches": 417.0,
+      "profiles_per_branch": 66.41966426858514,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "cba",
+      "au_profiles": 32437,
+      "branches": 647.0,
+      "profiles_per_branch": 50.134466769706336,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "westpac",
+      "au_profiles": 17792,
+      "branches": 492.0,
+      "profiles_per_branch": 36.16260162601626,
+      "bank_label": "Westpac"
+    }
+  ],
+  "branch_trend": [
+    {
+      "bank": "anz",
+      "year": 2017,
+      "branches": 688.0,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "year": 2018,
+      "branches": 633.0,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "year": 2019,
+      "branches": 580.0,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "year": 2020,
+      "branches": 566.0,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "year": 2021,
+      "branches": 447.0,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "year": 2022,
+      "branches": 414.0,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "year": 2023,
+      "branches": 344.0,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "year": 2024,
+      "branches": 305.0,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "year": 2025,
+      "branches": 284.0,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "cba",
+      "year": 2017,
+      "branches": 1120.0,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "year": 2018,
+      "branches": 1081.0,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "year": 2019,
+      "branches": 1014.0,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "year": 2020,
+      "branches": 966.0,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "year": 2021,
+      "branches": 875.0,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "year": 2022,
+      "branches": 801.0,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "year": 2023,
+      "branches": 728.0,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "year": 2024,
+      "branches": 696.0,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "year": 2025,
+      "branches": 647.0,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "nab",
+      "year": 2017,
+      "branches": 731.0,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "year": 2018,
+      "branches": 688.0,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "year": 2019,
+      "branches": 656.0,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "year": 2020,
+      "branches": 630.0,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "year": 2021,
+      "branches": 582.0,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "year": 2022,
+      "branches": 536.0,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "year": 2023,
+      "branches": 473.0,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "year": 2024,
+      "branches": 420.0,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "year": 2025,
+      "branches": 417.0,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "westpac",
+      "year": 2017,
+      "branches": 1033.0,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "year": 2018,
+      "branches": 1011.0,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "year": 2019,
+      "branches": 952.0,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "year": 2020,
+      "branches": 915.0,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "year": 2021,
+      "branches": 836.0,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "year": 2022,
+      "branches": 750.0,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "year": 2023,
+      "branches": 583.0,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "year": 2024,
+      "branches": 517.0,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "year": 2025,
+      "branches": 492.0,
+      "bank_label": "Westpac"
+    }
+  ],
+  "state_vs_finance": [
+    {
+      "state": "NSW",
+      "profiles": 38222,
+      "finance_employed": 237550.1838,
+      "year": 2026,
+      "share_of_finance_employment": 0.16090073848219014
+    },
+    {
+      "state": "VIC",
+      "profiles": 35504,
+      "finance_employed": 164413.3946,
+      "year": 2026,
+      "share_of_finance_employment": 0.21594347642038164
+    },
+    {
+      "state": "QLD",
+      "profiles": 7056,
+      "finance_employed": 73490.6729,
+      "year": 2026,
+      "share_of_finance_employment": 0.09601218388082006
+    },
+    {
+      "state": "WA",
+      "profiles": 4074,
+      "finance_employed": 33284.784799999994,
+      "year": 2026,
+      "share_of_finance_employment": 0.12239826769136872
+    },
+    {
+      "state": "SA",
+      "profiles": 3277,
+      "finance_employed": 26478.3726,
+      "year": 2026,
+      "share_of_finance_employment": 0.12376138252545023
+    },
+    {
+      "state": "TAS",
+      "profiles": 716,
+      "finance_employed": 3684.0562,
+      "year": 2026,
+      "share_of_finance_employment": 0.19435099822852867
+    },
+    {
+      "state": "ACT",
+      "profiles": 536,
+      "finance_employed": 3615.7399,
+      "year": 2026,
+      "share_of_finance_employment": 0.1482407514987458
+    },
+    {
+      "state": "NT",
+      "profiles": 113,
+      "finance_employed": 1023.897,
+      "year": 2026,
+      "share_of_finance_employment": 0.1103626634319663
+    }
+  ],
+  "profiles_per_100k": [
+    {
+      "gcc": "Greater Sydney",
+      "profiles": 21215,
+      "population": 5557233.0,
+      "year": 2024,
+      "profiles_per_100k": 381.75473297592526
+    },
+    {
+      "gcc": "Greater Melbourne",
+      "profiles": 17770,
+      "population": 5350705.0,
+      "year": 2024,
+      "profiles_per_100k": 332.1057692397544
+    },
+    {
+      "gcc": "Greater Brisbane",
+      "profiles": 2637,
+      "population": 2780063.0,
+      "year": 2024,
+      "profiles_per_100k": 94.85396553962985
+    },
+    {
+      "gcc": "Greater Perth",
+      "profiles": 2026,
+      "population": 2384371.0,
+      "year": 2024,
+      "profiles_per_100k": 84.96999837693043
+    },
+    {
+      "gcc": "Greater Adelaide",
+      "profiles": 1679,
+      "population": 1469163.0,
+      "year": 2024,
+      "profiles_per_100k": 114.28275827801272
+    }
+  ],
+  "education_summary": [
+    {
+      "bank": "anz",
+      "education_records": 29222,
+      "au_provider_records": 8887,
+      "go8_records": 3314,
+      "au_provider_share": 0.3041201834234481,
+      "go8_share": 0.11340770652248305,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "westpac",
+      "education_records": 12635,
+      "au_provider_records": 5961,
+      "go8_records": 2033,
+      "au_provider_share": 0.47178472497032053,
+      "go8_share": 0.16090225563909774,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "nab",
+      "education_records": 24154,
+      "au_provider_records": 11429,
+      "go8_records": 4047,
+      "au_provider_share": 0.47317214540034774,
+      "go8_share": 0.1675498882172725,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "cba",
+      "education_records": 29316,
+      "au_provider_records": 13099,
+      "go8_records": 4975,
+      "au_provider_share": 0.44682084868331284,
+      "go8_share": 0.1697025515077091,
+      "bank_label": "CBA"
+    }
+  ],
+  "workstreams": {
+    "career_paths": {
+      "id": "career_paths",
+      "title": "Career paths and CBA attractors",
+      "defensibility": {
+        "score": 40.6,
+        "tier": "low",
+        "coverage": 0.595,
+        "median_cell_n": 38.0,
+        "sparse_cell_share": 0.436,
+        "notes": [
+          "Uses dated experience rows only; undated careers are excluded.",
+          "Function tags are regex heuristics on titles, so misclassification noise remains.",
+          "Cells with n < 30 are flagged as sparse."
+        ]
+      },
+      "function_transitions": [
+        {
+          "to_bank": "anz",
+          "from_function": "other",
+          "to_function": "technology",
+          "n": 2734,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "other",
+          "to_function": "branch",
+          "n": 2478,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "cba",
+          "from_function": "other",
+          "to_function": "technology",
+          "n": 2287,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "branch",
+          "to_function": "other",
+          "n": 2258,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "nab",
+          "from_function": "other",
+          "to_function": "analyst",
+          "n": 1814,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "cba",
+          "from_function": "other",
+          "to_function": "branch",
+          "n": 1796,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "technology",
+          "to_function": "other",
+          "n": 1795,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "other",
+          "to_function": "analyst",
+          "n": 1782,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "cba",
+          "from_function": "branch",
+          "to_function": "other",
+          "n": 1752,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_function": "other",
+          "to_function": "analyst",
+          "n": 1707,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "nab",
+          "from_function": "other",
+          "to_function": "technology",
+          "n": 1679,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "analyst",
+          "to_function": "other",
+          "n": 1621,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "nab",
+          "from_function": "analyst",
+          "to_function": "other",
+          "n": 1407,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_function": "other",
+          "to_function": "business_banking",
+          "n": 1400,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "other",
+          "to_function": "business_banking",
+          "n": 1298,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "cba",
+          "from_function": "analyst",
+          "to_function": "other",
+          "n": 1185,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "nab",
+          "from_function": "technology",
+          "to_function": "other",
+          "n": 1145,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_function": "branch",
+          "to_function": "other",
+          "n": 1131,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_function": "other",
+          "to_function": "branch",
+          "n": 1123,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "cba",
+          "from_function": "other",
+          "to_function": "business_banking",
+          "n": 1069,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "westpac",
+          "from_function": "other",
+          "to_function": "branch",
+          "n": 961,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "other",
+          "to_function": "risk",
+          "n": 949,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "cba",
+          "from_function": "other",
+          "to_function": "leadership",
+          "n": 940,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_function": "technology",
+          "to_function": "other",
+          "n": 934,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_function": "other",
+          "to_function": "home_lending",
+          "n": 914,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_function": "other",
+          "to_function": "risk",
+          "n": 902,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "westpac",
+          "from_function": "other",
+          "to_function": "technology",
+          "n": 882,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "business_banking",
+          "to_function": "other",
+          "n": 847,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "analyst",
+          "to_function": "technology",
+          "n": 786,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "nab",
+          "from_function": "business_banking",
+          "to_function": "other",
+          "n": 786,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "westpac",
+          "from_function": "branch",
+          "to_function": "other",
+          "n": 778,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "nab",
+          "from_function": "other",
+          "to_function": "home_lending",
+          "n": 775,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "other",
+          "to_function": "operations",
+          "n": 765,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "nab",
+          "from_function": "other",
+          "to_function": "risk",
+          "n": 753,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "other",
+          "to_function": "markets",
+          "n": 714,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "westpac",
+          "from_function": "technology",
+          "to_function": "other",
+          "n": 702,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "technology",
+          "to_function": "analyst",
+          "n": 688,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "risk",
+          "to_function": "other",
+          "n": 664,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_function": "other",
+          "to_function": "leadership",
+          "n": 650,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "westpac",
+          "from_function": "other",
+          "to_function": "business_banking",
+          "n": 635,
+          "bank_label": "Westpac"
+        }
+      ],
+      "tenure_into_current_function": [
+        {
+          "to_bank": "anz",
+          "to_function": "other",
+          "n": 7973,
+          "median_prior_tenure_months": 50.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "other",
+          "n": 6432,
+          "median_prior_tenure_months": 45.0,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "other",
+          "n": 5778,
+          "median_prior_tenure_months": 44.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "technology",
+          "n": 4548,
+          "median_prior_tenure_months": 32.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "anz",
+          "to_function": "technology",
+          "n": 3604,
+          "median_prior_tenure_months": 51.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "westpac",
+          "to_function": "other",
+          "n": 3232,
+          "median_prior_tenure_months": 51.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "technology",
+          "n": 2440,
+          "median_prior_tenure_months": 50.0,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "analyst",
+          "n": 2100,
+          "median_prior_tenure_months": 43.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "anz",
+          "to_function": "analyst",
+          "n": 1931,
+          "median_prior_tenure_months": 50.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "analyst",
+          "n": 1881,
+          "median_prior_tenure_months": 40.0,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "anz",
+          "to_function": "branch",
+          "n": 1386,
+          "median_prior_tenure_months": 60.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "business_banking",
+          "n": 1336,
+          "median_prior_tenure_months": 49.0,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "risk",
+          "n": 1328,
+          "median_prior_tenure_months": 43.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "leadership",
+          "n": 1247,
+          "median_prior_tenure_months": 49.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "anz",
+          "to_function": "risk",
+          "n": 1118,
+          "median_prior_tenure_months": 43.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "westpac",
+          "to_function": "technology",
+          "n": 1114,
+          "median_prior_tenure_months": 47.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "business_banking",
+          "n": 1022,
+          "median_prior_tenure_months": 42.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "anz",
+          "to_function": "business_banking",
+          "n": 1002,
+          "median_prior_tenure_months": 49.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "home_lending",
+          "n": 993,
+          "median_prior_tenure_months": 46.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "branch",
+          "n": 958,
+          "median_prior_tenure_months": 67.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "risk",
+          "n": 810,
+          "median_prior_tenure_months": 40.0,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "anz",
+          "to_function": "operations",
+          "n": 793,
+          "median_prior_tenure_months": 38.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "to_function": "leadership",
+          "n": 693,
+          "median_prior_tenure_months": 56.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "to_function": "markets",
+          "n": 673,
+          "median_prior_tenure_months": 54.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "home_lending",
+          "n": 665,
+          "median_prior_tenure_months": 23.0,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "westpac",
+          "to_function": "analyst",
+          "n": 663,
+          "median_prior_tenure_months": 49.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "leadership",
+          "n": 660,
+          "median_prior_tenure_months": 43.0,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "westpac",
+          "to_function": "business_banking",
+          "n": 653,
+          "median_prior_tenure_months": 46.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "operations",
+          "n": 624,
+          "median_prior_tenure_months": 39.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "westpac",
+          "to_function": "branch",
+          "n": 573,
+          "median_prior_tenure_months": 80.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "branch",
+          "n": 571,
+          "median_prior_tenure_months": 47.0,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "westpac",
+          "to_function": "home_lending",
+          "n": 556,
+          "median_prior_tenure_months": 47.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "to_function": "risk",
+          "n": 539,
+          "median_prior_tenure_months": 49.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "to_function": "leadership",
+          "n": 471,
+          "median_prior_tenure_months": 40.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "markets",
+          "n": 383,
+          "median_prior_tenure_months": 47.0,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "anz",
+          "to_function": "finance",
+          "n": 372,
+          "median_prior_tenure_months": 53.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "operations",
+          "n": 357,
+          "median_prior_tenure_months": 48.0,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "markets",
+          "n": 320,
+          "median_prior_tenure_months": 37.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "to_function": "finance",
+          "n": 304,
+          "median_prior_tenure_months": 43.0,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "nab",
+          "to_function": "finance",
+          "n": 297,
+          "median_prior_tenure_months": 47.0,
+          "bank_label": "NAB"
+        }
+      ],
+      "cba_attractors": [
+        {
+          "from_bank": "westpac",
+          "to_function": "other",
+          "n": 141,
+          "from_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "westpac",
+          "to_function": "home_lending",
+          "n": 123,
+          "from_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "anz",
+          "to_function": "other",
+          "n": 94,
+          "from_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "nab",
+          "to_function": "other",
+          "n": 92,
+          "from_bank_label": "NAB"
+        },
+        {
+          "from_bank": "nab",
+          "to_function": "home_lending",
+          "n": 83,
+          "from_bank_label": "NAB"
+        },
+        {
+          "from_bank": "nab",
+          "to_function": "leadership",
+          "n": 67,
+          "from_bank_label": "NAB"
+        },
+        {
+          "from_bank": "anz",
+          "to_function": "technology",
+          "n": 67,
+          "from_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "anz",
+          "to_function": "home_lending",
+          "n": 61,
+          "from_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "westpac",
+          "to_function": "technology",
+          "n": 61,
+          "from_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "westpac",
+          "to_function": "leadership",
+          "n": 56,
+          "from_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "westpac",
+          "to_function": "analyst",
+          "n": 56,
+          "from_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "anz",
+          "to_function": "leadership",
+          "n": 51,
+          "from_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "anz",
+          "to_function": "business_banking",
+          "n": 50,
+          "from_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "westpac",
+          "to_function": "business_banking",
+          "n": 47,
+          "from_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "nab",
+          "to_function": "business_banking",
+          "n": 45,
+          "from_bank_label": "NAB"
+        },
+        {
+          "from_bank": "anz",
+          "to_function": "analyst",
+          "n": 41,
+          "from_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "westpac",
+          "to_function": "risk",
+          "n": 41,
+          "from_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "nab",
+          "to_function": "technology",
+          "n": 38,
+          "from_bank_label": "NAB"
+        },
+        {
+          "from_bank": "nab",
+          "to_function": "risk",
+          "n": 32,
+          "from_bank_label": "NAB"
+        },
+        {
+          "from_bank": "anz",
+          "to_function": "operations",
+          "n": 24,
+          "from_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "nab",
+          "to_function": "analyst",
+          "n": 23,
+          "from_bank_label": "NAB"
+        },
+        {
+          "from_bank": "anz",
+          "to_function": "risk",
+          "n": 17,
+          "from_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "nab",
+          "to_function": "operations",
+          "n": 12,
+          "from_bank_label": "NAB"
+        },
+        {
+          "from_bank": "westpac",
+          "to_function": "branch",
+          "n": 10,
+          "from_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "anz",
+          "to_function": "branch",
+          "n": 10,
+          "from_bank_label": "ANZ"
+        }
+      ],
+      "interbank_join_function": [
+        {
+          "from_bank": "westpac",
+          "to_bank": "cba",
+          "to_function": "other",
+          "n": 141,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "nab",
+          "to_function": "other",
+          "n": 131,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "cba",
+          "to_function": "home_lending",
+          "n": 123,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "anz",
+          "to_function": "other",
+          "n": 110,
+          "from_bank_label": "NAB",
+          "to_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "nab",
+          "to_function": "other",
+          "n": 100,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "nab",
+          "to_function": "other",
+          "n": 95,
+          "from_bank_label": "CBA",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "westpac",
+          "to_function": "other",
+          "n": 95,
+          "from_bank_label": "CBA",
+          "to_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "cba",
+          "to_function": "other",
+          "n": 94,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "cba",
+          "to_function": "other",
+          "n": 92,
+          "from_bank_label": "NAB",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "anz",
+          "to_function": "other",
+          "n": 85,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "cba",
+          "to_function": "home_lending",
+          "n": 83,
+          "from_bank_label": "NAB",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "cba",
+          "to_function": "technology",
+          "n": 67,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "cba",
+          "to_function": "leadership",
+          "n": 67,
+          "from_bank_label": "NAB",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "anz",
+          "to_function": "other",
+          "n": 62,
+          "from_bank_label": "CBA",
+          "to_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "cba",
+          "to_function": "technology",
+          "n": 61,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "cba",
+          "to_function": "home_lending",
+          "n": 61,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "cba",
+          "to_function": "analyst",
+          "n": 56,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "cba",
+          "to_function": "leadership",
+          "n": 56,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "nab",
+          "to_function": "business_banking",
+          "n": 56,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "nab",
+          "to_function": "analyst",
+          "n": 51,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "nab",
+          "to_function": "business_banking",
+          "n": 51,
+          "from_bank_label": "CBA",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "cba",
+          "to_function": "leadership",
+          "n": 51,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "cba",
+          "to_function": "business_banking",
+          "n": 50,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "anz",
+          "to_function": "technology",
+          "n": 50,
+          "from_bank_label": "NAB",
+          "to_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "nab",
+          "to_function": "technology",
+          "n": 49,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "nab",
+          "to_function": "home_lending",
+          "n": 49,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "westpac",
+          "to_function": "home_lending",
+          "n": 48,
+          "from_bank_label": "CBA",
+          "to_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "westpac",
+          "to_function": "other",
+          "n": 47,
+          "from_bank_label": "NAB",
+          "to_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "cba",
+          "to_function": "business_banking",
+          "n": 47,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "cba",
+          "to_function": "business_banking",
+          "n": 45,
+          "from_bank_label": "NAB",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "westpac",
+          "to_function": "other",
+          "n": 44,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "nab",
+          "to_function": "business_banking",
+          "n": 42,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "cba",
+          "to_function": "risk",
+          "n": 41,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "cba",
+          "to_function": "analyst",
+          "n": 41,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "westpac",
+          "to_function": "business_banking",
+          "n": 40,
+          "from_bank_label": "NAB",
+          "to_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "westpac",
+          "to_function": "technology",
+          "n": 39,
+          "from_bank_label": "CBA",
+          "to_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "westpac",
+          "to_function": "analyst",
+          "n": 38,
+          "from_bank_label": "CBA",
+          "to_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "cba",
+          "to_function": "technology",
+          "n": 38,
+          "from_bank_label": "NAB",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "nab",
+          "to_function": "home_lending",
+          "n": 37,
+          "from_bank_label": "CBA",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "cba",
+          "to_function": "risk",
+          "n": 32,
+          "from_bank_label": "NAB",
+          "to_bank_label": "CBA"
+        }
+      ]
+    },
+    "skills_org": {
+      "id": "skills_org",
+      "title": "Function mix and org design proxies",
+      "defensibility": {
+        "score": 91.5,
+        "tier": "high",
+        "coverage": 0.847,
+        "median_cell_n": 31005.5,
+        "sparse_cell_share": 0.095,
+        "notes": [
+          "Technology/risk/markets shares use titled profiles only; unknown titles excluded.",
+          "Wilson 95% intervals reported for bank-level technology shares.",
+          "About-section coverage is only 44% \u2014 text clustering is not used for claims.",
+          "Certifications remain too sparse for leading indicators."
+        ]
+      },
+      "about_coverage": 0.43695561552469336,
+      "technology_share_wilson": [
+        {
+          "bank": "anz",
+          "bank_label": "ANZ",
+          "n_titled": 37275,
+          "technology": 6179,
+          "share": 0.16576794097920858,
+          "wilson_low": 0.16202721252374838,
+          "wilson_high": 0.16957755493769547
+        },
+        {
+          "bank": "cba",
+          "bank_label": "CBA",
+          "n_titled": 33125,
+          "technology": 6644,
+          "share": 0.20057358490566038,
+          "wilson_low": 0.1962961633440077,
+          "wilson_high": 0.20492044907144116
+        },
+        {
+          "bank": "nab",
+          "bank_label": "NAB",
+          "n_titled": 28886,
+          "technology": 4570,
+          "share": 0.1582081285051582,
+          "wilson_low": 0.15404509494966517,
+          "wilson_high": 0.16246206097742028
+        },
+        {
+          "bank": "westpac",
+          "bank_label": "Westpac",
+          "n_titled": 16511,
+          "technology": 2107,
+          "share": 0.1276118951002362,
+          "wilson_low": 0.12260893491948431,
+          "wilson_high": 0.13278810140449712
+        }
+      ],
+      "function_by_bank": [
+        {
+          "bank": "anz",
+          "function": "other",
+          "n": 15987,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "technology",
+          "n": 6179,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "analyst",
+          "n": 3130,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "branch",
+          "n": 2652,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "risk",
+          "n": 1908,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "business_banking",
+          "n": 1542,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "operations",
+          "n": 1320,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "leadership",
+          "n": 1107,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "markets",
+          "n": 1101,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "finance",
+          "n": 1072,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "home_lending",
+          "n": 533,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "marketing",
+          "n": 390,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "people",
+          "n": 354,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "function": "other",
+          "n": 11904,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "technology",
+          "n": 6644,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "analyst",
+          "n": 2581,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "branch",
+          "n": 2293,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "risk",
+          "n": 2233,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "leadership",
+          "n": 1740,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "business_banking",
+          "n": 1595,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "home_lending",
+          "n": 1386,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "finance",
+          "n": 838,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "operations",
+          "n": 821,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "markets",
+          "n": 539,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "marketing",
+          "n": 320,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "people",
+          "n": 231,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "function": "other",
+          "n": 12095,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "technology",
+          "n": 4570,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "analyst",
+          "n": 2310,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "business_banking",
+          "n": 2085,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "risk",
+          "n": 1658,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "branch",
+          "n": 1356,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "leadership",
+          "n": 1118,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "finance",
+          "n": 886,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "home_lending",
+          "n": 878,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "operations",
+          "n": 737,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "markets",
+          "n": 669,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "marketing",
+          "n": 305,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "people",
+          "n": 219,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "westpac",
+          "function": "other",
+          "n": 6858,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "technology",
+          "n": 2107,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "branch",
+          "n": 1574,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "business_banking",
+          "n": 1119,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "analyst",
+          "n": 945,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "risk",
+          "n": 864,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "home_lending",
+          "n": 792,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "leadership",
+          "n": 752,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "finance",
+          "n": 577,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "operations",
+          "n": 380,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "markets",
+          "n": 262,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "marketing",
+          "n": 152,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "function": "people",
+          "n": 129,
+          "bank_label": "Westpac"
+        }
+      ],
+      "function_by_bank_state_top": [
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "other",
+          "n": 5703,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "state": "VIC",
+          "function": "other",
+          "n": 5699,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "anz",
+          "state": "VIC",
+          "function": "other",
+          "n": 4084,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "westpac",
+          "state": "NSW",
+          "function": "other",
+          "n": 3310,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "technology",
+          "n": 2856,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "state": "VIC",
+          "function": "technology",
+          "n": 2586,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "state": "NSW",
+          "function": "other",
+          "n": 2135,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "anz",
+          "state": "VIC",
+          "function": "technology",
+          "n": 1850,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "state": "VIC",
+          "function": "other",
+          "n": 1743,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "analyst",
+          "n": 1373,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "state": "VIC",
+          "function": "analyst",
+          "n": 1361,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "risk",
+          "n": 1319,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "anz",
+          "state": "NSW",
+          "function": "other",
+          "n": 1235,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "westpac",
+          "state": "NSW",
+          "function": "technology",
+          "n": 1234,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "leadership",
+          "n": 1007,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "state": "QLD",
+          "function": "other",
+          "n": 857,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "state": "VIC",
+          "function": "risk",
+          "n": 837,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "anz",
+          "state": "VIC",
+          "function": "analyst",
+          "n": 814,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "branch",
+          "n": 795,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "westpac",
+          "state": "VIC",
+          "function": "other",
+          "n": 768,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "state": "SA",
+          "function": "other",
+          "n": 691,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "cba",
+          "state": "QLD",
+          "function": "other",
+          "n": 683,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "westpac",
+          "state": "NSW",
+          "function": "analyst",
+          "n": 630,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "anz",
+          "state": "VIC",
+          "function": "risk",
+          "n": 629,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "state": "QLD",
+          "function": "other",
+          "n": 620,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "nab",
+          "state": "NSW",
+          "function": "business_banking",
+          "n": 597,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "state": "VIC",
+          "function": "business_banking",
+          "n": 597,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "state": "VIC",
+          "function": "leadership",
+          "n": 581,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "cba",
+          "state": "VIC",
+          "function": "technology",
+          "n": 578,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "state": "VIC",
+          "function": "branch",
+          "n": 577,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "business_banking",
+          "n": 576,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "westpac",
+          "state": "NSW",
+          "function": "risk",
+          "n": 572,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "anz",
+          "state": "VIC",
+          "function": "branch",
+          "n": 565,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "state": "WA",
+          "function": "other",
+          "n": 527,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "home_lending",
+          "n": 473,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "westpac",
+          "state": "QLD",
+          "function": "other",
+          "n": 468,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "finance",
+          "n": 455,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "westpac",
+          "state": "NSW",
+          "function": "leadership",
+          "n": 454,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "state": "NSW",
+          "function": "branch",
+          "n": 452,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "anz",
+          "state": "NSW",
+          "function": "branch",
+          "n": 438,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "nab",
+          "state": "VIC",
+          "function": "branch",
+          "n": 437,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "state": "VIC",
+          "function": "finance",
+          "n": 418,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "state": "NSW",
+          "function": "technology",
+          "n": 407,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "state": "VIC",
+          "function": "operations",
+          "n": 405,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "state": "WA",
+          "function": "other",
+          "n": 395,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "operations",
+          "n": 377,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "state": "VIC",
+          "function": "home_lending",
+          "n": 370,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "state": "NSW",
+          "function": "branch",
+          "n": 357,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "state": "QLD",
+          "function": "business_banking",
+          "n": 353,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "cba",
+          "state": "VIC",
+          "function": "business_banking",
+          "n": 337,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "anz",
+          "state": "VIC",
+          "function": "finance",
+          "n": 332,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "westpac",
+          "state": "NSW",
+          "function": "business_banking",
+          "n": 319,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "state": "VIC",
+          "function": "branch",
+          "n": 315,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "nab",
+          "state": "VIC",
+          "function": "home_lending",
+          "n": 303,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "anz",
+          "state": "VIC",
+          "function": "leadership",
+          "n": 302,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "state": "VIC",
+          "function": "business_banking",
+          "n": 298,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "state": "NSW",
+          "function": "markets",
+          "n": 298,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "anz",
+          "state": "WA",
+          "function": "other",
+          "n": 295,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "state": "QLD",
+          "function": "branch",
+          "n": 290,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "westpac",
+          "state": "WA",
+          "function": "other",
+          "n": 288,
+          "bank_label": "Westpac"
+        }
+      ],
+      "india_hubs": [
+        {
+          "bank": "anz",
+          "function": "other",
+          "gcc": null,
+          "n": 2939,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "technology",
+          "gcc": null,
+          "n": 2467,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "function": "technology",
+          "gcc": null,
+          "n": 2130,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "anz",
+          "function": "analyst",
+          "gcc": null,
+          "n": 1479,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "nab",
+          "function": "other",
+          "gcc": null,
+          "n": 1103,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "technology",
+          "gcc": null,
+          "n": 968,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "cba",
+          "function": "other",
+          "gcc": null,
+          "n": 835,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "anz",
+          "function": "operations",
+          "gcc": null,
+          "n": 736,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "function": "analyst",
+          "gcc": null,
+          "n": 545,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "anz",
+          "function": "risk",
+          "gcc": null,
+          "n": 542,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "nab",
+          "function": "analyst",
+          "gcc": null,
+          "n": 486,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "function": "risk",
+          "gcc": null,
+          "n": 415,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "cba",
+          "function": "risk",
+          "gcc": null,
+          "n": 371,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "operations",
+          "gcc": null,
+          "n": 235,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "anz",
+          "function": "finance",
+          "gcc": null,
+          "n": 215,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "function": "technology",
+          "gcc": "Bengaluru",
+          "n": 192,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "function": "operations",
+          "gcc": null,
+          "n": 185,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "anz",
+          "function": "markets",
+          "gcc": null,
+          "n": 144,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "nab",
+          "function": "finance",
+          "gcc": null,
+          "n": 132,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "anz",
+          "function": "technology",
+          "gcc": "Bengaluru",
+          "n": 106,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "leadership",
+          "gcc": null,
+          "n": 102,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "other",
+          "gcc": "Bengaluru",
+          "n": 84,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "people",
+          "gcc": null,
+          "n": 83,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "function": "other",
+          "gcc": "Bengaluru",
+          "n": 63,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "function": "people",
+          "gcc": null,
+          "n": 54,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "anz",
+          "function": "business_banking",
+          "gcc": null,
+          "n": 52,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "function": "home_lending",
+          "gcc": null,
+          "n": 52,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "nab",
+          "function": "markets",
+          "gcc": null,
+          "n": 48,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "anz",
+          "function": "analyst",
+          "gcc": "Bengaluru",
+          "n": 44,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "function": "finance",
+          "gcc": null,
+          "n": 42,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "function": "leadership",
+          "gcc": null,
+          "n": 37,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "anz",
+          "function": "marketing",
+          "gcc": null,
+          "n": 37,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "westpac",
+          "function": "other",
+          "gcc": null,
+          "n": 32,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "anz",
+          "function": "risk",
+          "gcc": "Bengaluru",
+          "n": 32,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "function": "leadership",
+          "gcc": null,
+          "n": 32,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "anz",
+          "function": "operations",
+          "gcc": "Bengaluru",
+          "n": 30,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "function": "analyst",
+          "gcc": "Bengaluru",
+          "n": 28,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "function": "people",
+          "gcc": null,
+          "n": 28,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "function": "home_lending",
+          "gcc": null,
+          "n": 27,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "westpac",
+          "function": "technology",
+          "gcc": null,
+          "n": 26,
+          "bank_label": "Westpac"
+        }
+      ]
+    },
+    "network": {
+      "id": "network",
+      "title": "Employer transition network",
+      "defensibility": {
+        "score": 63.7,
+        "tier": "medium",
+        "coverage": 0.464,
+        "median_cell_n": 288.0,
+        "sparse_cell_share": 0.0,
+        "notes": [
+          "Edges require a prior employer in the experience history; many profiles lack usable sequences.",
+          "External company names are free text and may duplicate (Deloitte / Deloitte Australia).",
+          "Inter-bank cells are generally large enough for directional claims."
+        ]
+      },
+      "interbank_matrix": [
+        {
+          "from": "ANZ",
+          "to": "CBA",
+          "n": 435
+        },
+        {
+          "from": "ANZ",
+          "to": "NAB",
+          "n": 401
+        },
+        {
+          "from": "ANZ",
+          "to": "Westpac",
+          "n": 164
+        },
+        {
+          "from": "CBA",
+          "to": "ANZ",
+          "n": 143
+        },
+        {
+          "from": "CBA",
+          "to": "NAB",
+          "n": 276
+        },
+        {
+          "from": "CBA",
+          "to": "Westpac",
+          "n": 346
+        },
+        {
+          "from": "NAB",
+          "to": "ANZ",
+          "n": 300
+        },
+        {
+          "from": "NAB",
+          "to": "CBA",
+          "n": 413
+        },
+        {
+          "from": "NAB",
+          "to": "Westpac",
+          "n": 186
+        },
+        {
+          "from": "Westpac",
+          "to": "ANZ",
+          "n": 158
+        },
+        {
+          "from": "Westpac",
+          "to": "CBA",
+          "n": 577
+        },
+        {
+          "from": "Westpac",
+          "to": "NAB",
+          "n": 267
+        }
+      ],
+      "interbank_edges": [
+        {
+          "from_bank": "westpac",
+          "to_bank": "cba",
+          "n": 577,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "cba",
+          "n": 435,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "cba",
+          "n": 413,
+          "from_bank_label": "NAB",
+          "to_bank_label": "CBA"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "nab",
+          "n": 401,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "westpac",
+          "n": 346,
+          "from_bank_label": "CBA",
+          "to_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "anz",
+          "n": 300,
+          "from_bank_label": "NAB",
+          "to_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "nab",
+          "n": 276,
+          "from_bank_label": "CBA",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "nab",
+          "n": 267,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "NAB"
+        },
+        {
+          "from_bank": "nab",
+          "to_bank": "westpac",
+          "n": 186,
+          "from_bank_label": "NAB",
+          "to_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "anz",
+          "to_bank": "westpac",
+          "n": 164,
+          "from_bank_label": "ANZ",
+          "to_bank_label": "Westpac"
+        },
+        {
+          "from_bank": "westpac",
+          "to_bank": "anz",
+          "n": 158,
+          "from_bank_label": "Westpac",
+          "to_bank_label": "ANZ"
+        },
+        {
+          "from_bank": "cba",
+          "to_bank": "anz",
+          "n": 143,
+          "from_bank_label": "CBA",
+          "to_bank_label": "ANZ"
+        }
+      ],
+      "external_feeders_top": [
+        {
+          "to_bank": "westpac",
+          "from_company": "St.George Bank",
+          "n": 120,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "-",
+          "n": 118,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "Bank of Melbourne",
+          "n": 66,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "Macquarie Group",
+          "n": 52,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "BT Financial Group",
+          "n": 45,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "Infosys",
+          "n": 44,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "BT",
+          "n": 42,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "St George Bank",
+          "n": 39,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "Bankwest",
+          "n": 37,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "BankSA",
+          "n": 36,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "Telstra",
+          "n": 35,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "IBM",
+          "n": 35,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "Tata Consultancy Services",
+          "n": 35,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "Bendigo and Adelaide Bank",
+          "n": 31,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "westpac",
+          "from_company": "Suncorp Group",
+          "n": 31,
+          "bank_label": "Westpac"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "-",
+          "n": 280,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "Bankwest",
+          "n": 180,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "Tata Consultancy Services",
+          "n": 152,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "Macquarie Group",
+          "n": 137,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "Accenture",
+          "n": 112,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "HSBC",
+          "n": 106,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "Deloitte",
+          "n": 100,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "EY",
+          "n": 85,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "CommSec",
+          "n": 78,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "IBM",
+          "n": 72,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "Wells Fargo",
+          "n": 71,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "HCL Technologies",
+          "n": 71,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "Infosys",
+          "n": 70,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "JPMorgan Chase & Co.",
+          "n": 68,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "cba",
+          "from_company": "Cognizant",
+          "n": 66,
+          "bank_label": "CBA"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "-",
+          "n": 289,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "HSBC",
+          "n": 109,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "JPMorgan Chase & Co.",
+          "n": 77,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "Standard Chartered Bank",
+          "n": 75,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "Suncorp Group",
+          "n": 74,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "Accenture",
+          "n": 72,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "Capgemini",
+          "n": 72,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "Infosys",
+          "n": 70,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "Tata Consultancy Services",
+          "n": 68,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "EY",
+          "n": 65,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "IBM",
+          "n": 64,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "Wells Fargo",
+          "n": 59,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "Deutsche Bank",
+          "n": 58,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "Citi",
+          "n": 55,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "anz",
+          "from_company": "Bank of New Zealand",
+          "n": 52,
+          "bank_label": "ANZ"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "-",
+          "n": 181,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "Citi",
+          "n": 128,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "Telstra",
+          "n": 81,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "Infosys",
+          "n": 80,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "Accenture",
+          "n": 77,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "NatWest Group",
+          "n": 69,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "American Express",
+          "n": 60,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "Bank of America",
+          "n": 56,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "Bankwest",
+          "n": 45,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "HSBC",
+          "n": 45,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "EY",
+          "n": 44,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "Macquarie Group",
+          "n": 44,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "IBM",
+          "n": 44,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "Tata Consultancy Services",
+          "n": 44,
+          "bank_label": "NAB"
+        },
+        {
+          "to_bank": "nab",
+          "from_company": "Barclays",
+          "n": 41,
+          "bank_label": "NAB"
+        }
+      ],
+      "people_with_previous_employer": 63507
+    },
+    "public_overlays": {
+      "id": "public_overlays",
+      "title": "APRA / ABS public overlays",
+      "defensibility": {
+        "score": 86.1,
+        "tier": "high",
+        "coverage": 0.71,
+        "median_cell_n": 771.5,
+        "sparse_cell_share": 0.094,
+        "notes": [
+          "LinkedIn density \u2260 staff census; ABS and APRA denominators are official.",
+          "Profiles-per-branch mixes a biased numerator with an administrative denominator.",
+          "Best used for relative ranks across banks/states, not absolute labour-market shares.",
+          "APRA branch counts by SA3 for latest year (Table 1)."
+        ]
+      },
+      "profiles_per_branch_state": [
+        {
+          "bank_label": "ANZ",
+          "state": "VIC",
+          "profiles": 11662,
+          "branches": 67.0,
+          "profiles_per_branch": 174.0597014925373,
+          "sparse": false
+        },
+        {
+          "bank_label": "NAB",
+          "state": "VIC",
+          "profiles": 16288,
+          "branches": 114.0,
+          "profiles_per_branch": 142.87719298245614,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "NSW",
+          "profiles": 19483,
+          "branches": 227.0,
+          "profiles_per_branch": 85.82819383259911,
+          "sparse": false
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "NSW",
+          "profiles": 9935,
+          "branches": 167.0,
+          "profiles_per_branch": 59.49101796407186,
+          "sparse": false
+        },
+        {
+          "bank_label": "ANZ",
+          "state": "NSW",
+          "profiles": 3189,
+          "branches": 72.0,
+          "profiles_per_branch": 44.291666666666664,
+          "sparse": false
+        },
+        {
+          "bank_label": "NAB",
+          "state": "NSW",
+          "profiles": 5615,
+          "branches": 131.0,
+          "profiles_per_branch": 42.86259541984733,
+          "sparse": false
+        },
+        {
+          "bank_label": "NAB",
+          "state": "ACT",
+          "profiles": 152,
+          "branches": 4.0,
+          "profiles_per_branch": 38.0,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "ACT",
+          "profiles": 178,
+          "branches": 6.0,
+          "profiles_per_branch": 29.666666666666668,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "VIC",
+          "profiles": 5233,
+          "branches": 178.0,
+          "profiles_per_branch": 29.39887640449438,
+          "sparse": false
+        },
+        {
+          "bank_label": "ANZ",
+          "state": "ACT",
+          "profiles": 87,
+          "branches": 3.0,
+          "profiles_per_branch": 29.0,
+          "sparse": false
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "SA",
+          "profiles": 1530,
+          "branches": 62.0,
+          "profiles_per_branch": 24.677419354838708,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "WA",
+          "profiles": 1577,
+          "branches": 66.0,
+          "profiles_per_branch": 23.893939393939394,
+          "sparse": false
+        },
+        {
+          "bank_label": "ANZ",
+          "state": "QLD",
+          "profiles": 1408,
+          "branches": 59.0,
+          "profiles_per_branch": 23.864406779661017,
+          "sparse": false
+        },
+        {
+          "bank_label": "NAB",
+          "state": "WA",
+          "profiles": 954,
+          "branches": 40.0,
+          "profiles_per_branch": 23.85,
+          "sparse": false
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "VIC",
+          "profiles": 2321,
+          "branches": 100.0,
+          "profiles_per_branch": 23.21,
+          "sparse": false
+        },
+        {
+          "bank_label": "NAB",
+          "state": "QLD",
+          "profiles": 1998,
+          "branches": 90.0,
+          "profiles_per_branch": 22.2,
+          "sparse": false
+        },
+        {
+          "bank_label": "ANZ",
+          "state": "WA",
+          "profiles": 695,
+          "branches": 32.0,
+          "profiles_per_branch": 21.71875,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "QLD",
+          "profiles": 2139,
+          "branches": 104.0,
+          "profiles_per_branch": 20.567307692307693,
+          "sparse": false
+        },
+        {
+          "bank_label": "NAB",
+          "state": "SA",
+          "profiles": 548,
+          "branches": 28.0,
+          "profiles_per_branch": 19.571428571428573,
+          "sparse": false
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "TAS",
+          "profiles": 192,
+          "branches": 10.0,
+          "profiles_per_branch": 19.2,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "SA",
+          "profiles": 654,
+          "branches": 35.0,
+          "profiles_per_branch": 18.685714285714287,
+          "sparse": false
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "QLD",
+          "profiles": 1511,
+          "branches": 86.0,
+          "profiles_per_branch": 17.569767441860463,
+          "sparse": false
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "WA",
+          "profiles": 848,
+          "branches": 50.0,
+          "profiles_per_branch": 16.96,
+          "sparse": false
+        },
+        {
+          "bank_label": "ANZ",
+          "state": "SA",
+          "profiles": 545,
+          "branches": 36.0,
+          "profiles_per_branch": 15.13888888888889,
+          "sparse": false
+        },
+        {
+          "bank_label": "ANZ",
+          "state": "TAS",
+          "profiles": 112,
+          "branches": 8.0,
+          "profiles_per_branch": 14.0,
+          "sparse": false
+        },
+        {
+          "bank_label": "NAB",
+          "state": "TAS",
+          "profiles": 83,
+          "branches": 6.0,
+          "profiles_per_branch": 13.833333333333334,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "TAS",
+          "profiles": 329,
+          "branches": 25.0,
+          "profiles_per_branch": 13.16,
+          "sparse": false
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "ACT",
+          "profiles": 119,
+          "branches": 11.0,
+          "profiles_per_branch": 10.818181818181818,
+          "sparse": false
+        },
+        {
+          "bank_label": "NAB",
+          "state": "NT",
+          "profiles": 29,
+          "branches": 4.0,
+          "profiles_per_branch": 7.25,
+          "sparse": true
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "NT",
+          "profiles": 33,
+          "branches": 5.0,
+          "profiles_per_branch": 6.6,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "NT",
+          "profiles": 28,
+          "branches": 5.0,
+          "profiles_per_branch": 5.6,
+          "sparse": true
+        },
+        {
+          "bank_label": "ANZ",
+          "state": "NT",
+          "profiles": 23,
+          "branches": 7.0,
+          "profiles_per_branch": 3.2857142857142856,
+          "sparse": true
+        }
+      ],
+      "state_vs_finance_employment": [
+        {
+          "state": "NSW",
+          "profiles": 38222,
+          "finance_employed": 237550.1838,
+          "year": 2026,
+          "share_of_finance_employment": 0.16090073848219014
+        },
+        {
+          "state": "VIC",
+          "profiles": 35504,
+          "finance_employed": 164413.3946,
+          "year": 2026,
+          "share_of_finance_employment": 0.21594347642038164
+        },
+        {
+          "state": "QLD",
+          "profiles": 7056,
+          "finance_employed": 73490.6729,
+          "year": 2026,
+          "share_of_finance_employment": 0.09601218388082006
+        },
+        {
+          "state": "WA",
+          "profiles": 4074,
+          "finance_employed": 33284.784799999994,
+          "year": 2026,
+          "share_of_finance_employment": 0.12239826769136872
+        },
+        {
+          "state": "SA",
+          "profiles": 3277,
+          "finance_employed": 26478.3726,
+          "year": 2026,
+          "share_of_finance_employment": 0.12376138252545023
+        },
+        {
+          "state": "TAS",
+          "profiles": 716,
+          "finance_employed": 3684.0562,
+          "year": 2026,
+          "share_of_finance_employment": 0.19435099822852867
+        },
+        {
+          "state": "ACT",
+          "profiles": 536,
+          "finance_employed": 3615.7399,
+          "year": 2026,
+          "share_of_finance_employment": 0.1482407514987458
+        },
+        {
+          "state": "NT",
+          "profiles": 113,
+          "finance_employed": 1023.897,
+          "year": 2026,
+          "share_of_finance_employment": 0.1103626634319663
+        }
+      ],
+      "profiles_per_100k": [
+        {
+          "gcc": "Greater Sydney",
+          "profiles": 21215,
+          "population": 5557233.0,
+          "year": 2024,
+          "profiles_per_100k": 381.75473297592526
+        },
+        {
+          "gcc": "Greater Melbourne",
+          "profiles": 17770,
+          "population": 5350705.0,
+          "year": 2024,
+          "profiles_per_100k": 332.1057692397544
+        },
+        {
+          "gcc": "Greater Brisbane",
+          "profiles": 2637,
+          "population": 2780063.0,
+          "year": 2024,
+          "profiles_per_100k": 94.85396553962985
+        },
+        {
+          "gcc": "Greater Perth",
+          "profiles": 2026,
+          "population": 2384371.0,
+          "year": 2024,
+          "profiles_per_100k": 84.96999837693043
+        },
+        {
+          "gcc": "Greater Adelaide",
+          "profiles": 1679,
+          "population": 1469163.0,
+          "year": 2024,
+          "profiles_per_100k": 114.28275827801272
+        }
+      ],
+      "branch_trend": [
+        {
+          "bank": "anz",
+          "year": 2017,
+          "branches": 688.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "year": 2018,
+          "branches": 633.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "year": 2019,
+          "branches": 580.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "year": 2020,
+          "branches": 566.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "year": 2021,
+          "branches": 447.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "year": 2022,
+          "branches": 414.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "year": 2023,
+          "branches": 344.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "year": 2024,
+          "branches": 305.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "anz",
+          "year": 2025,
+          "branches": 284.0,
+          "bank_label": "ANZ"
+        },
+        {
+          "bank": "cba",
+          "year": 2017,
+          "branches": 1120.0,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "year": 2018,
+          "branches": 1081.0,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "year": 2019,
+          "branches": 1014.0,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "year": 2020,
+          "branches": 966.0,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "year": 2021,
+          "branches": 875.0,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "year": 2022,
+          "branches": 801.0,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "year": 2023,
+          "branches": 728.0,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "year": 2024,
+          "branches": 696.0,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "cba",
+          "year": 2025,
+          "branches": 647.0,
+          "bank_label": "CBA"
+        },
+        {
+          "bank": "nab",
+          "year": 2017,
+          "branches": 731.0,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "year": 2018,
+          "branches": 688.0,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "year": 2019,
+          "branches": 656.0,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "year": 2020,
+          "branches": 630.0,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "year": 2021,
+          "branches": 582.0,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "year": 2022,
+          "branches": 536.0,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "year": 2023,
+          "branches": 473.0,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "year": 2024,
+          "branches": 420.0,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "nab",
+          "year": 2025,
+          "branches": 417.0,
+          "bank_label": "NAB"
+        },
+        {
+          "bank": "westpac",
+          "year": 2017,
+          "branches": 1033.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "year": 2018,
+          "branches": 1011.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "year": 2019,
+          "branches": 952.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "year": 2020,
+          "branches": 915.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "year": 2021,
+          "branches": 836.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "year": 2022,
+          "branches": 750.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "year": 2023,
+          "branches": 583.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "year": 2024,
+          "branches": 517.0,
+          "bank_label": "Westpac"
+        },
+        {
+          "bank": "westpac",
+          "year": 2025,
+          "branches": 492.0,
+          "bank_label": "Westpac"
+        }
+      ],
+      "apra_sa3_top_branches": [
+        {
+          "bank_label": "CBA",
+          "state": "NSW",
+          "sa3": "Sydney Inner City",
+          "branches": 165.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "NSW",
+          "sa3": "Sydney Inner City",
+          "branches": 148.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "VIC",
+          "sa3": "Melbourne City",
+          "branches": 116.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "VIC",
+          "sa3": "Melbourne City",
+          "branches": 115.0
+        },
+        {
+          "bank_label": "NAB",
+          "state": "NSW",
+          "sa3": "Sydney Inner City",
+          "branches": 95.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "WA",
+          "sa3": "Perth City",
+          "branches": 92.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "VIC",
+          "sa3": "Monash",
+          "branches": 86.0
+        },
+        {
+          "bank_label": "NAB",
+          "state": "VIC",
+          "sa3": "Melbourne City",
+          "branches": 83.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "VIC",
+          "sa3": "Grampians",
+          "branches": 79.0
+        },
+        {
+          "bank_label": "NAB",
+          "state": "VIC",
+          "sa3": "Grampians",
+          "branches": 78.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "WA",
+          "sa3": "Wheat Belt - North",
+          "branches": 77.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "VIC",
+          "sa3": "Boroondara",
+          "branches": 76.0
+        },
+        {
+          "bank_label": "NAB",
+          "state": "QLD",
+          "sa3": "Darling Downs (West) - Maranoa",
+          "branches": 75.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "SA",
+          "sa3": "Eyre Peninsula and South West",
+          "branches": 74.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "VIC",
+          "sa3": "Yarra Ranges",
+          "branches": 73.0
+        },
+        {
+          "bank_label": "ANZ",
+          "state": "NSW",
+          "sa3": "Sydney Inner City",
+          "branches": 71.0
+        },
+        {
+          "bank_label": "ANZ",
+          "state": "VIC",
+          "sa3": "Melbourne City",
+          "branches": 69.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "QLD",
+          "sa3": "Brisbane Inner",
+          "branches": 69.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "SA",
+          "sa3": "Adelaide City",
+          "branches": 67.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "WA",
+          "sa3": "Albany",
+          "branches": 66.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "SA",
+          "sa3": "Murray and Mallee",
+          "branches": 65.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "WA",
+          "sa3": "Stirling",
+          "branches": 64.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "NSW",
+          "sa3": "Bourke - Cobar - Coonamble",
+          "branches": 63.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "VIC",
+          "sa3": "Monash",
+          "branches": 63.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "VIC",
+          "sa3": "Geelong",
+          "branches": 61.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "NSW",
+          "sa3": "North Sydney - Mosman",
+          "branches": 60.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "QLD",
+          "sa3": "Brisbane Inner",
+          "branches": 60.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "WA",
+          "sa3": "Perth City",
+          "branches": 60.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "NSW",
+          "sa3": "Parramatta",
+          "branches": 59.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "VIC",
+          "sa3": "Brimbank",
+          "branches": 59.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "NSW",
+          "sa3": "Strathfield - Burwood - Ashfield",
+          "branches": 58.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "VIC",
+          "sa3": "Whittlesea - Wallan",
+          "branches": 58.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "NSW",
+          "sa3": "Wyong",
+          "branches": 58.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "NSW",
+          "sa3": "Cronulla - Miranda - Caringbah",
+          "branches": 58.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "NSW",
+          "sa3": "Gosford",
+          "branches": 57.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "VIC",
+          "sa3": "Murray River - Swan Hill",
+          "branches": 56.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "WA",
+          "sa3": "Canning",
+          "branches": 56.0
+        },
+        {
+          "bank_label": "Westpac",
+          "state": "NSW",
+          "sa3": "Ryde - Hunters Hill",
+          "branches": 55.0
+        },
+        {
+          "bank_label": "ANZ",
+          "state": "SA",
+          "sa3": "Eyre Peninsula and South West",
+          "branches": 54.0
+        },
+        {
+          "bank_label": "CBA",
+          "state": "NSW",
+          "sa3": "South Coast",
+          "branches": 54.0
+        }
+      ],
+      "sa3_note": "APRA branch counts by SA3 for latest year (Table 1)."
+    },
+    "decision_products": {
+      "id": "decision_products",
+      "title": "Stakeholder decision products",
+      "defensibility": {
+        "score": 100.0,
+        "tier": "high",
+        "coverage": 1.0,
+        "median_cell_n": 33528.0,
+        "sparse_cell_share": 0.0,
+        "notes": [
+          "Decision products only emit claims with n \u2265 30 and, where relevant, Wilson intervals.",
+          "This layer inherits bias from LinkedIn coverage; wording stays relative."
+        ]
+      },
+      "supported_claims": [
+        {
+          "claim": "ANZ technology-title share is 16.6% (95% WI 16.2\u201317.0%)",
+          "n": 37275,
+          "support": "skills_org",
+          "workstream": "skills_org"
+        },
+        {
+          "claim": "CBA technology-title share is 20.1% (95% WI 19.6\u201320.5%)",
+          "n": 33125,
+          "support": "skills_org",
+          "workstream": "skills_org"
+        },
+        {
+          "claim": "NAB technology-title share is 15.8% (95% WI 15.4\u201316.2%)",
+          "n": 28886,
+          "support": "skills_org",
+          "workstream": "skills_org"
+        },
+        {
+          "claim": "Westpac technology-title share is 12.8% (95% WI 12.3\u201313.3%)",
+          "n": 16511,
+          "support": "skills_org",
+          "workstream": "skills_org"
+        },
+        {
+          "claim": "Largest observed inbound competitor flow to CBA includes Westpac\u2192CBA (577 moves).",
+          "n": 577,
+          "support": "network",
+          "workstream": "network"
+        },
+        {
+          "claim": "ANZ India share 24.0% (95% WI 23.6\u201324.4%)",
+          "n": 42644,
+          "support": "skills_org",
+          "workstream": "skills_org"
+        },
+        {
+          "claim": "CBA India share 14.3% (95% WI 14.0\u201314.7%)",
+          "n": 40519,
+          "support": "skills_org",
+          "workstream": "skills_org"
+        },
+        {
+          "claim": "NAB India share 12.5% (95% WI 12.2\u201312.9%)",
+          "n": 33931,
+          "support": "skills_org",
+          "workstream": "skills_org"
+        },
+        {
+          "claim": "Westpac India share 0.5% (95% WI 0.4\u20130.6%)",
+          "n": 19643,
+          "support": "skills_org",
+          "workstream": "skills_org"
+        },
+        {
+          "claim": "VIC shows the highest big-four LinkedIn density vs ABS finance employment (21.6%).",
+          "n": 35504,
+          "support": "public_overlays",
+          "workstream": "public_overlays"
+        }
+      ],
+      "talent_brief": {
+        "cba_tech_rank": 1,
+        "cba_india_share": 0.143118043387053,
+        "top_cba_sources": [
+          {
+            "from_bank": "westpac",
+            "to_bank": "cba",
+            "n": 577,
+            "from_bank_label": "Westpac",
+            "to_bank_label": "CBA"
+          },
+          {
+            "from_bank": "anz",
+            "to_bank": "cba",
+            "n": 435,
+            "from_bank_label": "ANZ",
+            "to_bank_label": "CBA"
+          },
+          {
+            "from_bank": "nab",
+            "to_bank": "cba",
+            "n": 413,
+            "from_bank_label": "NAB",
+            "to_bank_label": "CBA"
+          }
+        ]
+      },
+      "hiring_playbook": {
+        "priority_sources": [
+          {
+            "to_bank": "cba",
+            "from_company": "-",
+            "n": 280,
+            "bank_label": "CBA"
+          },
+          {
+            "to_bank": "cba",
+            "from_company": "Bankwest",
+            "n": 180,
+            "bank_label": "CBA"
+          },
+          {
+            "to_bank": "cba",
+            "from_company": "Tata Consultancy Services",
+            "n": 152,
+            "bank_label": "CBA"
+          },
+          {
+            "to_bank": "cba",
+            "from_company": "Macquarie Group",
+            "n": 137,
+            "bank_label": "CBA"
+          },
+          {
+            "to_bank": "cba",
+            "from_company": "Accenture",
+            "n": 112,
+            "bank_label": "CBA"
+          },
+          {
+            "to_bank": "cba",
+            "from_company": "HSBC",
+            "n": 106,
+            "bank_label": "CBA"
+          },
+          {
+            "to_bank": "cba",
+            "from_company": "Deloitte",
+            "n": 100,
+            "bank_label": "CBA"
+          },
+          {
+            "to_bank": "cba",
+            "from_company": "EY",
+            "n": 85,
+            "bank_label": "CBA"
+          },
+          {
+            "to_bank": "cba",
+            "from_company": "CommSec",
+            "n": 78,
+            "bank_label": "CBA"
+          },
+          {
+            "to_bank": "cba",
+            "from_company": "IBM",
+            "n": 72,
+            "bank_label": "CBA"
+          }
+        ],
+        "cba_function_attractors": [
+          {
+            "from_bank": "westpac",
+            "to_function": "other",
+            "n": 141,
+            "from_bank_label": "Westpac"
+          },
+          {
+            "from_bank": "westpac",
+            "to_function": "home_lending",
+            "n": 123,
+            "from_bank_label": "Westpac"
+          },
+          {
+            "from_bank": "anz",
+            "to_function": "other",
+            "n": 94,
+            "from_bank_label": "ANZ"
+          },
+          {
+            "from_bank": "nab",
+            "to_function": "other",
+            "n": 92,
+            "from_bank_label": "NAB"
+          },
+          {
+            "from_bank": "nab",
+            "to_function": "home_lending",
+            "n": 83,
+            "from_bank_label": "NAB"
+          },
+          {
+            "from_bank": "nab",
+            "to_function": "leadership",
+            "n": 67,
+            "from_bank_label": "NAB"
+          },
+          {
+            "from_bank": "anz",
+            "to_function": "technology",
+            "n": 67,
+            "from_bank_label": "ANZ"
+          },
+          {
+            "from_bank": "anz",
+            "to_function": "home_lending",
+            "n": 61,
+            "from_bank_label": "ANZ"
+          },
+          {
+            "from_bank": "westpac",
+            "to_function": "technology",
+            "n": 61,
+            "from_bank_label": "Westpac"
+          },
+          {
+            "from_bank": "westpac",
+            "to_function": "leadership",
+            "n": 56,
+            "from_bank_label": "Westpac"
+          }
+        ]
+      },
+      "branch_stress": [
+        {
+          "bank_label": "CBA",
+          "state": "NSW",
+          "profiles": 19483,
+          "branches": 227.0,
+          "profiles_per_branch": 85.82819383259911,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "ACT",
+          "profiles": 178,
+          "branches": 6.0,
+          "profiles_per_branch": 29.666666666666668,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "VIC",
+          "profiles": 5233,
+          "branches": 178.0,
+          "profiles_per_branch": 29.39887640449438,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "WA",
+          "profiles": 1577,
+          "branches": 66.0,
+          "profiles_per_branch": 23.893939393939394,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "QLD",
+          "profiles": 2139,
+          "branches": 104.0,
+          "profiles_per_branch": 20.567307692307693,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "SA",
+          "profiles": 654,
+          "branches": 35.0,
+          "profiles_per_branch": 18.685714285714287,
+          "sparse": false
+        },
+        {
+          "bank_label": "CBA",
+          "state": "TAS",
+          "profiles": 329,
+          "branches": 25.0,
+          "profiles_per_branch": 13.16,
+          "sparse": false
+        }
+      ],
+      "candidates_kept": 10,
+      "candidates_raw": 10
+    }
+  },
+  "sources": {
+    "apra": "https://www.apra.gov.au/system/files/2025-10/Authorised%20deposit-taking%20institutions%20points%20of%20presence%20June%202017%20to%20June%202025.xlsx",
+    "abs_population": "https://www.abs.gov.au/statistics/people/population/regional-population/2023-24/32180DS0003_2001-24.xlsx",
+    "abs_labour": "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia-detailed/mar-2026/6291005.xlsx",
+    "teqsa": "https://data.gov.au/data/dataset/0c4f6591-2aea-4797-a127-ae8f8a0be0e2/resource/07370e3f-780b-4a70-8c87-b6796d5ab237/download/providers_22092026.csv",
+    "apra_latest_year": 2025
+  }
+}

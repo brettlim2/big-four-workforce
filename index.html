@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Big-four bank workforce signals</title>
+  <meta name="description" content="Aggregate LinkedIn workforce signals for ANZ, CBA, NAB and Westpac, joined to APRA, ABS and TEQSA public data. No person-level data." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://brettlim2.github.io/big-four-workforce/" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --ink: #1c1a16;
+      --muted: #5c574e;
+      --card: #fffdf8;
+      --line: #ddd6c8;
+      --accent: #0f4c5c;
+      --high: #1b7f5a;
+      --med: #9a6b2f;
+      --low: #8a3b32;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e7eef0 0%, transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, #efe6d8 0%, transparent 50%),
+        var(--bg);
+      line-height: 1.45;
+    }
+    header, main, footer { width: min(1100px, calc(100% - 2rem)); margin: 0 auto; }
+    header { padding: 2.5rem 0 1rem; }
+    h1 { font-size: clamp(1.8rem, 3vw, 2.6rem); margin: 0 0 .5rem; letter-spacing: -0.02em; }
+    h2 { font-size: 1.15rem; margin: 0 0 .75rem; }
+    p { margin: 0 0 1rem; color: var(--muted); }
+    .eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; color: var(--accent); font-weight: 600; }
+    .grid { display: grid; gap: 1rem; }
+    .grid.stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 800px) {
+      .grid.stats, .grid.two { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+    }
+    .stat-value { font-size: 1.7rem; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: .85rem; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+    th, td { text-align: left; padding: .45rem .35rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+    .tier {
+      display: inline-block;
+      padding: .1rem .45rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .tier.high { background: #d9f0e5; color: var(--high); }
+    .tier.medium { background: #f3e5cc; color: var(--med); }
+    .tier.low { background: #f3d7d3; color: var(--low); }
+    .chart-wrap { position: relative; height: 280px; }
+    .claims li { margin-bottom: .55rem; }
+    .pill {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: .15rem .55rem;
+      font-size: .75rem;
+      margin-right: .35rem;
+      background: #fff;
+    }
+    footer { padding: 2rem 0 3rem; font-size: .85rem; color: var(--muted); }
+    a { color: var(--accent); }
+    .muted { color: var(--muted); font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">Public aggregate dashboard</div>
+    <h1 id="title">Big-four bank workforce signals</h1>
+    <p id="subtitle"></p>
+    <div>
+      <span class="pill" id="generated"></span>
+      <span class="pill">Aggregate-only · no person data</span>
+      <span class="pill">Wilson 95% intervals where shown</span>
+    </div>
+  </header>
+
+  <main class="grid" style="gap:1.25rem; padding-bottom:2rem;">
+    <section class="card">
+      <h2>Defensibility ranking</h2>
+      <p class="muted">Score blends coverage, median cell size, and sparse-cell share. Decision products score high because they only keep claims that already cleared n ≥ 30.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Rank</th><th>Workstream</th><th>Score</th><th>Tier</th><th>Coverage</th><th>Median n</th><th>Sparse</th></tr>
+          </thead>
+          <tbody id="ranking-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid stats" id="stats"></section>
+
+    <section class="card">
+      <h2>Most defensible headlines</h2>
+      <ul class="claims" id="claims"></ul>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>Mapped profiles by bank</h2>
+        <div class="chart-wrap"><canvas id="chart-banks"></canvas></div>
+      </div>
+      <div class="card">
+        <h2>Technology title share (%)</h2>
+        <div class="chart-wrap"><canvas id="chart-tech"></canvas></div>
+        <p class="muted">Titled profiles only. CBA leads with non-overlapping Wilson intervals vs peers.</p>
+      </div>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>India share (%)</h2>
+        <div class="chart-wrap"><canvas id="chart-india"></canvas></div>
+      </div>
+      <div class="card">
+        <h2>AU profiles per APRA branch</h2>
+        <div class="chart-wrap"><canvas id="chart-branch"></canvas></div>
+        <p class="muted">Relative LinkedIn density vs official June 2025 branch counts.</p>
+      </div>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>Current-role start years</h2>
+        <div class="chart-wrap"><canvas id="chart-hiring"></canvas></div>
+      </div>
+      <div class="card">
+        <h2>APRA branch network 2017–2025</h2>
+        <div class="chart-wrap"><canvas id="chart-branch-trend"></canvas></div>
+      </div>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>Profiles vs ABS finance employment by state</h2>
+        <div class="chart-wrap"><canvas id="chart-finance"></canvas></div>
+      </div>
+      <div class="card">
+        <h2>Inter-bank moves into current roles</h2>
+        <table>
+          <thead><tr><th>From</th><th>To</th><th>Moves</th></tr></thead>
+          <tbody id="moves-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>What is statistically strongest</h2>
+      <ol id="strongest"></ol>
+      <p class="muted" id="caveat"></p>
+    </section>
+  </main>
+
+  <footer>
+    <div>Sources: Bright Data LinkedIn people snapshot (aggregate only); APRA ADI Points of Presence; ABS Labour Force Detailed Table 05; ABS Regional Population; TEQSA National Register.</div>
+    <div>Hosted on GitHub Pages for CDN caching. Repo: <a href="https://github.com/brettlim2/big-four-workforce">brettlim2/big-four-workforce</a></div>
+  </footer>
+
+  <script>
+    const colors = ["#0f4c5c", "#c14953", "#5b8c5a", "#d4a373"];
+
+    function pct(x) {
+      if (x == null || Number.isNaN(x)) return "n/a";
+      return (100 * Number(x)).toFixed(1) + "%";
+    }
+    function num(x, d = 0) {
+      if (x == null || Number.isNaN(x)) return "n/a";
+      return Number(x).toLocaleString(undefined, { maximumFractionDigits: d });
+    }
+
+    function barChart(el, labels, values, label) {
+      return new Chart(el, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{ label, data: values, backgroundColor: colors[0], borderRadius: 6 }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: "#5c574e" }, grid: { display: false } },
+            y: { ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } }
+          }
+        }
+      });
+    }
+
+    function lineChart(el, labels, series) {
+      return new Chart(el, {
+        type: "line",
+        data: {
+          labels,
+          datasets: series.map((s, i) => ({
+            label: s.name,
+            data: s.data,
+            borderColor: colors[i % colors.length],
+            backgroundColor: colors[i % colors.length],
+            tension: 0.25,
+            pointRadius: 2
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "bottom" } },
+          scales: {
+            x: { ticks: { color: "#5c574e" }, grid: { display: false } },
+            y: { ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } }
+          }
+        }
+      });
+    }
+
+    async function main() {
+      const res = await fetch("./data/dashboard.json", { cache: "force-cache" });
+      const data = await res.json();
+      document.getElementById("title").textContent = data.title;
+      document.getElementById("subtitle").textContent = data.subtitle;
+      document.getElementById("generated").textContent = "Generated " + (data.generated_at || "").slice(0, 10);
+      document.getElementById("caveat").textContent = data.caveat;
+
+      const rankingBody = document.getElementById("ranking-body");
+      data.ranking.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${idx + 1}</td><td>${row.title}</td><td>${row.score}</td>
+          <td><span class="tier ${row.tier}">${row.tier}</span></td>
+          <td>${pct(row.coverage)}</td><td>${num(row.median_cell_n)}</td><td>${pct(row.sparse_cell_share)}</td>`;
+        rankingBody.appendChild(tr);
+      });
+
+      const cba = (data.banks || []).find(b => b.bank === "cba") || {};
+      const tech = (data.tech_share || []).find(b => b.bank === "cba") || {};
+      const india = (data.india_share || []).find(b => b.bank === "cba") || {};
+      const branch = (data.profiles_per_branch || []).find(b => b.bank === "cba") || {};
+      document.getElementById("stats").innerHTML = [
+        ["CBA profiles", num(cba.profiles)],
+        ["CBA tech titles", pct(tech.technology_share)],
+        ["CBA India share", pct(india.india_share)],
+        ["CBA profiles / branch", num(branch.profiles_per_branch, 1)]
+      ].map(([label, value]) => `<div class="card"><div class="stat-value">${value}</div><div class="stat-label">${label}</div></div>`).join("");
+
+      document.getElementById("claims").innerHTML = (data.headline_defensible || [])
+        .map(c => `<li>${c.claim} <span class="muted">(n=${num(c.n)})</span></li>`)
+        .join("");
+
+      const strongest = document.getElementById("strongest");
+      const primary = (data.ranking || []).filter(r => r.id !== "decision_products");
+      strongest.innerHTML = primary.map(r => {
+        const why = (r.notes || []).slice(0, 2).join(" ");
+        return `<li><strong>${r.title}</strong> — score ${r.score} (${r.tier}). ${why}</li>`;
+      }).join("");
+
+      barChart(
+        document.getElementById("chart-banks"),
+        (data.banks || []).map(b => b.bank_label || b.bank),
+        (data.banks || []).map(b => b.profiles),
+        "Profiles"
+      );
+      barChart(
+        document.getElementById("chart-tech"),
+        (data.tech_share || []).map(b => b.bank_label),
+        (data.tech_share || []).map(b => 100 * b.technology_share),
+        "Technology %"
+      );
+      barChart(
+        document.getElementById("chart-india"),
+        (data.india_share || []).map(b => b.bank_label),
+        (data.india_share || []).map(b => 100 * b.india_share),
+        "India %"
+      );
+      barChart(
+        document.getElementById("chart-branch"),
+        (data.profiles_per_branch || []).map(b => b.bank_label),
+        (data.profiles_per_branch || []).map(b => b.profiles_per_branch),
+        "Profiles / branch"
+      );
+      barChart(
+        document.getElementById("chart-finance"),
+        (data.state_vs_finance || []).map(b => b.state),
+        (data.state_vs_finance || []).map(b => 100 * (b.share_of_finance_employment || 0)),
+        "Share of finance employment %"
+      );
+
+      const years = ["2018","2019","2020","2021","2022","2023","2024","2025"];
+      const banks = ["ANZ","CBA","NAB","Westpac"];
+      const hiringMap = {};
+      (data.hiring_year || []).forEach(r => {
+        hiringMap[r.bank_label] = hiringMap[r.bank_label] || {};
+        hiringMap[r.bank_label][String(r.hire_year)] = r.hires;
+      });
+      lineChart(
+        document.getElementById("chart-hiring"),
+        years,
+        banks.map(name => ({ name, data: years.map(y => hiringMap[name]?.[y] || 0) }))
+      );
+
+      const branchYears = ["2017","2018","2019","2020","2021","2022","2023","2024","2025"];
+      const branchMap = {};
+      (data.branch_trend || []).forEach(r => {
+        branchMap[r.bank_label] = branchMap[r.bank_label] || {};
+        branchMap[r.bank_label][String(r.year)] = r.branches;
+      });
+      lineChart(
+        document.getElementById("chart-branch-trend"),
+        branchYears,
+        banks.map(name => ({ name, data: branchYears.map(y => branchMap[name]?.[y] || 0) }))
+      );
+
+      document.getElementById("moves-body").innerHTML = (data.interbank_moves || []).slice(0, 10)
+        .map(r => `<tr><td>${r.from_bank}</td><td>${r.to_bank}</td><td>${num(r.moves)}</td></tr>`)
+        .join("");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      if (window.Chart) main();
+      else document.addEventListener("DOMContentLoaded", main);
+    });
+    // Chart.js is deferred; wait for it
+    function waitChart() {
+      if (window.Chart) main();
+      else setTimeout(waitChart, 30);
+    }
+    waitChart();
+  </script>
+</body>
+</html>
