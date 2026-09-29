@@ -6,6 +6,22 @@ Static aggregate dashboard for ANZ / CBA / NAB / Westpac LinkedIn workforce sign
 
 No person-level data is published. Charts and tables are built from `data/dashboard.json`.
 
+## Reading order
+
+1. **Executive readout** — selected-bank headline, three KPIs, technology-share hero with Wilson intervals
+2. **Three findings** — operating-model gap, location concentration, talent-flow advantage
+3. **Six investigation modules** — function mix, talent flows, career paths, branch-to-digital, geography, education
+4. **Evidence drawer** — defensibility ranking, method, sources, supported headlines
+
+Use the bank / function / geography / period controls to explore; the default story is curated around CBA.
+
+## Guardrails
+
+- Counts are **observed profiles / signals**, not a workforce census
+- Profiles per branch are a **footprint-density proxy**, not productivity
+- Current-role start years are **normalized within each bank’s sample**
+- Wilson intervals measure precision; they do not remove LinkedIn selection bias
+
 ## Defensibility ranking (this release)
 
 | Rank | Workstream | Score | Tier |

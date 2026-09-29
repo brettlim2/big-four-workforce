@@ -7,7 +7,9 @@
   <meta name="description" content="Aggregate LinkedIn workforce signals for ANZ, CBA, NAB and Westpac, joined to APRA, ABS and TEQSA public data. No person-level data." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://brettlim2.github.io/big-four-workforce/" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-error-bars@4.4.5/build/index.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-sankey@0.12.1/dist/chartjs-chart-sankey.min.js"></script>
   <style>
     :root {
       --bg: #f6f4ef;
@@ -19,29 +21,33 @@
       --high: #1b7f5a;
       --med: #9a6b2f;
       --low: #8a3b32;
+      --anz: #0f4c5c;
+      --cba: #c14953;
+      --nab: #5b8c5a;
+      --westpac: #d4a373;
+      --peer: #c8c2b6;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
       color: var(--ink);
-      background:
-        radial-gradient(1200px 500px at 10% -10%, #e7eef0 0%, transparent 55%),
-        radial-gradient(900px 400px at 100% 0%, #efe6d8 0%, transparent 50%),
-        var(--bg);
+      background: var(--bg);
       line-height: 1.45;
     }
-    header, main, footer { width: min(1100px, calc(100% - 2rem)); margin: 0 auto; }
-    header { padding: 2.5rem 0 1rem; }
-    h1 { font-size: clamp(1.8rem, 3vw, 2.6rem); margin: 0 0 .5rem; letter-spacing: -0.02em; }
-    h2 { font-size: 1.15rem; margin: 0 0 .75rem; }
-    p { margin: 0 0 1rem; color: var(--muted); }
+    header, main, footer { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; }
+    header { padding: 2rem 0 1rem; }
+    h1 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin: 0 0 .5rem; letter-spacing: -0.02em; }
+    h2 { font-size: 1.15rem; margin: 0 0 .55rem; }
+    h3 { font-size: 1rem; margin: 0 0 .4rem; }
+    p { margin: 0 0 .85rem; color: var(--muted); }
     .eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; color: var(--accent); font-weight: 600; }
     .grid { display: grid; gap: 1rem; }
-    .grid.stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid.stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    @media (max-width: 800px) {
-      .grid.stats, .grid.two { grid-template-columns: 1fr; }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @media (max-width: 860px) {
+      .grid.stats, .grid.two, .grid.three, .controls { grid-template-columns: 1fr; }
     }
     .card {
       background: var(--card);
@@ -49,11 +55,13 @@
       border-radius: 14px;
       padding: 1rem 1.1rem;
     }
-    .stat-value { font-size: 1.7rem; font-weight: 700; color: var(--accent); }
+    .card.hero { border-color: #c5d5da; }
+    .stat-value { font-size: 1.55rem; font-weight: 700; color: var(--accent); }
     .stat-label { font-size: .85rem; color: var(--muted); }
-    table { width: 100%; border-collapse: collapse; font-size: .92rem; }
-    th, td { text-align: left; padding: .45rem .35rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-    th { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+    .stat-note { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+    table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    th, td { text-align: left; padding: .4rem .3rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
     .tier {
       display: inline-block;
       padding: .1rem .45rem;
@@ -66,108 +74,325 @@
     .tier.medium { background: #f3e5cc; color: var(--med); }
     .tier.low { background: #f3d7d3; color: var(--low); }
     .chart-wrap { position: relative; height: 280px; }
-    .claims li { margin-bottom: .55rem; }
+    .chart-wrap.tall { height: 320px; }
     .pill {
       display: inline-block;
       border: 1px solid var(--line);
       border-radius: 999px;
       padding: .15rem .55rem;
       font-size: .75rem;
-      margin-right: .35rem;
+      margin: 0 .35rem .35rem 0;
       background: #fff;
     }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .75rem;
+      margin: 1rem 0 0;
+    }
+    label.ctrl { display: flex; flex-direction: column; gap: .25rem; font-size: .78rem; color: var(--muted); font-weight: 600; }
+    select {
+      font: inherit;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: .45rem .55rem;
+      background: #fff;
+    }
+    .finding {
+      border-left: 3px solid var(--accent);
+      padding-left: .9rem;
+    }
+    .finding .implication { color: var(--ink); font-weight: 600; margin: .35rem 0 0; }
+    .module-q { font-weight: 600; color: var(--ink); margin-bottom: .65rem; }
+    .caption { font-size: .8rem; color: var(--muted); margin: .45rem 0 0; }
+    .muted { color: var(--muted); font-size: .85rem; }
+    .sparse { color: var(--med); font-size: .75rem; }
+    details.evidence {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      padding: .85rem 1rem;
+    }
+    details.evidence summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .heatmap { width: 100%; border-collapse: collapse; font-size: .82rem; }
+    .heatmap th, .heatmap td { text-align: center; padding: .35rem; border: 1px solid var(--line); }
+    .heatmap th:first-child, .heatmap td:first-child { text-align: left; }
+    .flow-matrix { width: 100%; border-collapse: collapse; font-size: .82rem; }
+    .flow-matrix th, .flow-matrix td { text-align: center; padding: .4rem; border: 1px solid var(--line); }
+    .flow-matrix .hl { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .map-wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 1rem; align-items: start; }
+    @media (max-width: 860px) { .map-wrap { grid-template-columns: 1fr; } }
+    .state-map svg { width: 100%; height: auto; }
+    .legend-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: .4rem 0 .8rem; font-size: .78rem; color: var(--muted); }
+    .swatch { display: inline-block; width: .7rem; height: .7rem; border-radius: 2px; margin-right: .25rem; vertical-align: -1px; }
+    .status {
+      padding: 1rem 1.1rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--muted);
+    }
+    .status.error { border-color: #e0b4ae; color: var(--low); }
     footer { padding: 2rem 0 3rem; font-size: .85rem; color: var(--muted); }
     a { color: var(--accent); }
-    .muted { color: var(--muted); font-size: .85rem; }
+    .next-data li { margin-bottom: .45rem; }
+    .section-label { text-transform: uppercase; letter-spacing: .06em; font-size: .72rem; color: var(--muted); font-weight: 600; margin: 1.25rem 0 .5rem; }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
   <header>
     <div class="eyebrow">Public aggregate dashboard</div>
     <h1 id="title">Big-four bank workforce signals</h1>
-    <p id="subtitle"></p>
-    <div>
-      <span class="pill" id="generated"></span>
-      <span class="pill">Aggregate-only · no person data</span>
+    <p id="subtitle">LinkedIn snapshot joined to APRA, ABS, and TEQSA public data. Aggregate rates only.</p>
+    <div id="trust-pills">
+      <span class="pill" id="generated">Loading…</span>
+      <span class="pill">Observed profiles · not a workforce census</span>
       <span class="pill">Wilson 95% intervals where shown</span>
+      <span class="pill">Aggregate-only · no person data</span>
+    </div>
+    <div class="controls" id="controls" aria-label="Exploration controls">
+      <label class="ctrl">Target bank
+        <select id="ctrl-bank" aria-label="Target bank"></select>
+      </label>
+      <label class="ctrl">Function
+        <select id="ctrl-function" aria-label="Function filter"></select>
+      </label>
+      <label class="ctrl">Geography
+        <select id="ctrl-state" aria-label="State filter"></select>
+      </label>
+      <label class="ctrl">Period
+        <select id="ctrl-period" aria-label="Period filter">
+          <option value="all">Full snapshot</option>
+          <option value="2022-2025">2022–2025 starts</option>
+          <option value="2018-2021">2018–2021 starts</option>
+        </select>
+      </label>
     </div>
   </header>
 
-  <main class="grid" style="gap:1.25rem; padding-bottom:2rem;">
-    <section class="card">
-      <h2>Defensibility ranking</h2>
-      <p class="muted">Score blends coverage, median cell size, and sparse-cell share. Decision products score high because they only keep claims that already cleared n ≥ 30.</p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>Rank</th><th>Workstream</th><th>Score</th><th>Tier</th><th>Coverage</th><th>Median n</th><th>Sparse</th></tr>
-          </thead>
-          <tbody id="ranking-body"></tbody>
-        </table>
-      </div>
-    </section>
+  <main id="app">
+    <div class="status" id="loading">Loading aggregate dashboard data…</div>
+    <div class="status error hidden" id="error"></div>
 
-    <section class="grid stats" id="stats"></section>
+    <div id="content" class="grid hidden" style="gap:1.25rem; padding-bottom:2rem;">
+      <section class="card hero" id="executive">
+        <div class="eyebrow">Chapter 1 · What is different?</div>
+        <h2 id="headline">Executive readout</h2>
+        <p id="headline-sub" class="muted"></p>
+        <section class="grid stats" id="kpis"></section>
+        <div style="margin-top:1rem;">
+          <h3 id="hero-title">Technology-title share of titled profiles (%)</h3>
+          <div class="chart-wrap"><canvas id="chart-hero" aria-label="Technology share with Wilson intervals"></canvas></div>
+          <p class="caption" id="hero-caption"></p>
+          <details>
+            <summary class="muted">Data table</summary>
+            <div class="table-wrap"><table><thead><tr><th>Bank</th><th>Share %</th><th>Wilson low</th><th>Wilson high</th><th>n titled</th></tr></thead><tbody id="hero-table"></tbody></table></div>
+          </details>
+        </div>
+      </section>
 
-    <section class="card">
-      <h2>Most defensible headlines</h2>
-      <ul class="claims" id="claims"></ul>
-    </section>
+      <section class="section-label">Three annotated findings</section>
+      <section class="grid three" id="findings">
+        <div class="card finding" id="finding-ops">
+          <h3>Operating-model gap</h3>
+          <p id="finding-ops-text"></p>
+          <p class="implication" id="finding-ops-impl"></p>
+          <div class="chart-wrap" style="height:200px;"><canvas id="chart-finding-ops"></canvas></div>
+        </div>
+        <div class="card finding" id="finding-geo">
+          <h3>Location concentration</h3>
+          <p id="finding-geo-text"></p>
+          <p class="implication" id="finding-geo-impl"></p>
+          <div class="chart-wrap" style="height:200px;"><canvas id="chart-finding-geo"></canvas></div>
+        </div>
+        <div class="card finding" id="finding-flow">
+          <h3>Talent-flow advantage</h3>
+          <p id="finding-flow-text"></p>
+          <p class="implication" id="finding-flow-impl"></p>
+          <div class="chart-wrap" style="height:200px;"><canvas id="chart-finding-flow"></canvas></div>
+        </div>
+      </section>
 
-    <section class="grid two">
-      <div class="card">
-        <h2>Mapped profiles by bank</h2>
-        <div class="chart-wrap"><canvas id="chart-banks"></canvas></div>
-      </div>
-      <div class="card">
-        <h2>Technology title share (%)</h2>
-        <div class="chart-wrap"><canvas id="chart-tech"></canvas></div>
-        <p class="muted">Titled profiles only. CBA leads with non-overlapping Wilson intervals vs peers.</p>
-      </div>
-    </section>
+      <section class="section-label">Chapter 2 · Why it matters</section>
+      <section class="card" id="implications">
+        <h2>Decision implications</h2>
+        <ul id="implication-list" class="muted"></ul>
+      </section>
 
-    <section class="grid two">
-      <div class="card">
-        <h2>India share (%)</h2>
-        <div class="chart-wrap"><canvas id="chart-india"></canvas></div>
-      </div>
-      <div class="card">
-        <h2>AU profiles per APRA branch</h2>
-        <div class="chart-wrap"><canvas id="chart-branch"></canvas></div>
-        <p class="muted">Relative LinkedIn density vs official June 2025 branch counts.</p>
-      </div>
-    </section>
+      <section class="section-label">Chapter 3 · Where to investigate</section>
 
-    <section class="grid two">
-      <div class="card">
-        <h2>Current-role start years</h2>
-        <div class="chart-wrap"><canvas id="chart-hiring"></canvas></div>
-      </div>
-      <div class="card">
-        <h2>APRA branch network 2017–2025</h2>
-        <div class="chart-wrap"><canvas id="chart-branch-trend"></canvas></div>
-      </div>
-    </section>
+      <section class="card module" id="mod-ops">
+        <h2>1. Operating-model benchmark</h2>
+        <p class="module-q">Where is each bank structurally over- or under-weight in technology, risk, branch, lending, analytics, and leadership?</p>
+        <div class="legend-row" id="bank-legend"></div>
+        <div class="grid two">
+          <div>
+            <h3>Function mix (100% stacked, titled profiles)</h3>
+            <div class="chart-wrap tall"><canvas id="chart-func-mix"></canvas></div>
+            <p class="caption" id="func-mix-caption"></p>
+          </div>
+          <div>
+            <h3>Gap-to-peer index (selected ÷ peer median)</h3>
+            <div id="heatmap"></div>
+            <p class="caption">Index 1.0 = peer median. Values above 1.2 are over-weight; below 0.8 under-weight. Sparse cells (n &lt; 30) marked.</p>
+          </div>
+        </div>
+        <details>
+          <summary class="muted">Function mix data table</summary>
+          <div class="table-wrap"><table><thead><tr><th>Bank</th><th>Function</th><th>n</th><th>Share %</th></tr></thead><tbody id="func-mix-table"></tbody></table></div>
+        </details>
+      </section>
 
-    <section class="grid two">
-      <div class="card">
-        <h2>Profiles vs ABS finance employment by state</h2>
-        <div class="chart-wrap"><canvas id="chart-finance"></canvas></div>
-      </div>
-      <div class="card">
-        <h2>Inter-bank moves into current roles</h2>
-        <table>
-          <thead><tr><th>From</th><th>To</th><th>Moves</th></tr></thead>
-          <tbody id="moves-body"></tbody>
-        </table>
-      </div>
-    </section>
+      <section class="card module" id="mod-flows">
+        <h2>2. Talent-flow intelligence</h2>
+        <p class="module-q">Who wins talent from whom, in which functions, and from which external employers?</p>
+        <div class="grid two">
+          <div>
+            <h3>Inter-bank move matrix (share of observed moves)</h3>
+            <div id="flow-matrix"></div>
+            <p class="caption" id="flow-matrix-caption"></p>
+          </div>
+          <div>
+            <h3>Selected-bank inflow Sankey</h3>
+            <div class="chart-wrap tall"><canvas id="chart-flow-sankey"></canvas></div>
+            <p class="caption">Observed previous big-four employer → current bank. Width is move count among profiles with a prior bank mapped.</p>
+          </div>
+        </div>
+        <h3 style="margin-top:1rem;">External feeders into selected bank</h3>
+        <div class="table-wrap"><table><thead><tr><th>From employer</th><th>Observed moves</th></tr></thead><tbody id="feeders-table"></tbody></table></div>
+        <p class="caption">Top external prior employers excluding blank labels. Counts are observed profile transitions, not hires.</p>
+      </section>
 
-    <section class="card">
-      <h2>What is statistically strongest</h2>
-      <ol id="strongest"></ol>
-      <p class="muted" id="caveat"></p>
-    </section>
+      <section class="card module" id="mod-career">
+        <h2>3. Career-path and mobility</h2>
+        <p class="module-q">Which prior functions and tenures precede moves into priority roles?</p>
+        <div class="grid two">
+          <div>
+            <h3 id="career-sankey-title">Prior function → selected destination</h3>
+            <div class="chart-wrap tall"><canvas id="chart-career-sankey"></canvas></div>
+            <p class="caption" id="career-caption"></p>
+          </div>
+          <div>
+            <h3>Median prior tenure into current function (months)</h3>
+            <div class="chart-wrap tall"><canvas id="chart-tenure"></canvas></div>
+            <p class="caption">Median months in the prior role before the observed current function. Sparse destinations marked in the table.</p>
+          </div>
+        </div>
+        <details>
+          <summary class="muted">Transition data table</summary>
+          <div class="table-wrap"><table><thead><tr><th>From function</th><th>To function</th><th>n</th><th>Sparse?</th></tr></thead><tbody id="career-table"></tbody></table></div>
+        </details>
+      </section>
+
+      <section class="card module" id="mod-branch">
+        <h2>4. Branch-to-digital transformation</h2>
+        <p class="module-q">Where is physical-network contraction occurring alongside a stronger digital or technology talent footprint?</p>
+        <div class="grid two">
+          <div>
+            <h3>APRA branch network index (2017 = 100)</h3>
+            <div class="chart-wrap"><canvas id="chart-branch-index"></canvas></div>
+            <p class="caption">Official ADI points of presence, June years. Indexed so every bank starts at 100 in 2017.</p>
+          </div>
+          <div>
+            <h3>State snapshot: footprint density vs technology share</h3>
+            <div class="chart-wrap"><canvas id="chart-branch-quad"></canvas></div>
+            <p class="caption">Snapshot only — state branch time series is not in this release. X = observed AU profiles per branch; Y = technology share of titled profiles in that state. Selected bank highlighted.</p>
+          </div>
+        </div>
+        <details>
+          <summary class="muted">Branch index data table</summary>
+          <div class="table-wrap"><table><thead><tr><th>Bank</th><th>Year</th><th>Branches</th><th>Index 2017=100</th></tr></thead><tbody id="branch-index-table"></tbody></table></div>
+        </details>
+      </section>
+
+      <section class="card module" id="mod-geo">
+        <h2>5. Geographic talent hubs</h2>
+        <p class="module-q">Which cities and states show concentration, whitespace, or reliance on offshore hubs?</p>
+        <div class="map-wrap">
+          <div>
+            <h3>Selected-bank state footprint (observed profiles)</h3>
+            <div class="state-map" id="state-map"></div>
+            <p class="caption" id="state-map-caption"></p>
+          </div>
+          <div>
+            <h3>AU city hubs — profiles per 100k residents</h3>
+            <div class="chart-wrap"><canvas id="chart-gcc"></canvas></div>
+            <p class="caption">Big-four combined observed profiles ÷ ABS regional population × 100,000. Year in source payload.</p>
+            <h3 style="margin-top:1rem;">India hub signals</h3>
+            <div class="table-wrap"><table><thead><tr><th>Bank</th><th>Function</th><th>City</th><th>n</th></tr></thead><tbody id="india-hubs-table"></tbody></table></div>
+            <p class="caption">Most India rows have no city in the snapshot; Bengaluru is the only named hub. Treat as location signals, not headcount.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card module" id="mod-edu">
+        <h2>6. Education and supply pipeline</h2>
+        <p class="module-q">Which institutions feed the workforce, and where could the next capability pipeline be built?</p>
+        <div class="grid two">
+          <div>
+            <h3>AU provider and Group of Eight shares</h3>
+            <div class="chart-wrap"><canvas id="chart-edu"></canvas></div>
+            <p class="caption">Share of education records matched to TEQSA AU providers and Group of Eight. Denominator = education records with an institution string.</p>
+          </div>
+          <div>
+            <h3>Top AU institutions for selected bank</h3>
+            <div class="table-wrap"><table><thead><tr><th>Institution</th><th>Records</th></tr></thead><tbody id="schools-table"></tbody></table></div>
+            <p class="caption">Field-of-study is not in this release; partnership decisions should treat this as institution mix only.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="starts">
+        <h2>Observed current-role starts (normalized)</h2>
+        <p class="muted">These are start years on the current role among observed profiles — not annual hiring volumes. Each series is the share of that bank’s own observed starts in the selected period.</p>
+        <div class="chart-wrap"><canvas id="chart-starts"></canvas></div>
+        <p class="caption" id="starts-caption"></p>
+      </section>
+
+      <section class="card" id="next-data">
+        <h2>Next-data modules (not in this snapshot)</h2>
+        <ul class="next-data muted">
+          <li><strong>Vacancies / demand</strong> — would support hiring-market pressure and competitor demand; requires job-posting or ATS feeds.</li>
+          <li><strong>Pay and benefits</strong> — would support compensation positioning; requires salary survey or offer data.</li>
+          <li><strong>Diversity outcomes</strong> — would support equity and inclusion decisions; requires demographic fields with clear consent and coverage.</li>
+          <li><strong>Productivity / delivery outcomes</strong> — would test whether tech share or hub density correlates with delivery; requires operational KPIs.</li>
+          <li><strong>Skills over time</strong> — would support reskilling plans; requires longitudinal skill tags rather than a single title snapshot.</li>
+        </ul>
+      </section>
+
+      <details class="evidence" id="evidence">
+        <summary>Evidence drawer — definitions, coverage, scoring, sources</summary>
+        <div style="margin-top:.85rem;" class="grid" gap="1rem">
+          <p id="caveat" class="muted"></p>
+          <div>
+            <h3>Defensibility ranking</h3>
+            <p class="caption">Score blends coverage (40), median cell size (35), and non-sparse share (25). Decision products score high because they only keep claims that already cleared n ≥ 30.</p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Rank</th><th>Workstream</th><th>Score</th><th>Tier</th><th>Coverage</th><th>Median n</th><th>Sparse</th></tr>
+                </thead>
+                <tbody id="ranking-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3>Method</h3>
+            <ul id="method-list" class="muted"></ul>
+            <h3>Sources</h3>
+            <ul id="sources-list" class="muted"></ul>
+            <h3>Supported headlines (n ≥ 30)</h3>
+            <ul id="claims" class="muted"></ul>
+          </div>
+        </div>
+      </details>
+    </div>
   </main>
 
   <footer>
@@ -176,46 +401,778 @@
   </footer>
 
   <script>
-    const colors = ["#0f4c5c", "#c14953", "#5b8c5a", "#d4a373"];
+    const BANKS = ["ANZ", "CBA", "NAB", "Westpac"];
+    const BANK_COLORS = {
+      ANZ: "#0f4c5c",
+      CBA: "#c14953",
+      NAB: "#5b8c5a",
+      Westpac: "#d4a373"
+    };
+    const PEER_COLOR = "#c8c2b6";
+    const MIN_CELL = 30;
+    const PRIORITY_FUNCS = ["technology", "risk", "branch", "home_lending", "business_banking", "leadership", "operations", "finance", "analyst"];
 
-    function pct(x) {
-      if (x == null || Number.isNaN(x)) return "n/a";
-      return (100 * Number(x)).toFixed(1) + "%";
+    const charts = {};
+    let DATA = null;
+    let started = false;
+
+    const state = {
+      bank: "CBA",
+      function: "technology",
+      geo: "all",
+      period: "all"
+    };
+
+    function pct(x, d = 1) {
+      if (x == null || Number.isNaN(Number(x))) return "n/a";
+      return (100 * Number(x)).toFixed(d) + "%";
     }
     function num(x, d = 0) {
-      if (x == null || Number.isNaN(x)) return "n/a";
+      if (x == null || Number.isNaN(Number(x))) return "n/a";
       return Number(x).toLocaleString(undefined, { maximumFractionDigits: d });
     }
+    function bankColor(label, selected) {
+      if (label === selected) return BANK_COLORS[label] || "#0f4c5c";
+      return PEER_COLOR;
+    }
+    function median(arr) {
+      const a = arr.filter(v => v != null && !Number.isNaN(v)).slice().sort((x, y) => x - y);
+      if (!a.length) return null;
+      const m = Math.floor(a.length / 2);
+      return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
+    }
+    function destroyChart(key) {
+      if (charts[key]) {
+        charts[key].destroy();
+        delete charts[key];
+      }
+    }
+    function yearInPeriod(y, period) {
+      const year = Number(y);
+      if (period === "2022-2025") return year >= 2022 && year <= 2025;
+      if (period === "2018-2021") return year >= 2018 && year <= 2021;
+      return year >= 2018 && year <= 2025;
+    }
+    function prettyFunc(f) {
+      return String(f || "").replace(/_/g, " ");
+    }
 
-    function barChart(el, labels, values, label) {
-      return new Chart(el, {
-        type: "bar",
+    function fillControls() {
+      const bankSel = document.getElementById("ctrl-bank");
+      const funcSel = document.getElementById("ctrl-function");
+      const stateSel = document.getElementById("ctrl-state");
+      bankSel.innerHTML = BANKS.map(b => `<option value="${b}">${b}</option>`).join("");
+      bankSel.value = state.bank;
+
+      const funcs = [...new Set((DATA.workstreams?.skills_org?.function_by_bank || []).map(r => r.function))].sort();
+      funcSel.innerHTML = funcs.map(f => `<option value="${f}">${prettyFunc(f)}</option>`).join("");
+      if (funcs.includes("technology")) state.function = "technology";
+      funcSel.value = state.function;
+
+      const states = [...new Set((DATA.workstreams?.skills_org?.function_by_bank_state_top || []).map(r => r.state))].sort();
+      stateSel.innerHTML = `<option value="all">All states</option>` + states.map(s => `<option value="${s}">${s}</option>`).join("");
+      stateSel.value = state.geo;
+
+      document.getElementById("bank-legend").innerHTML = BANKS.map(b =>
+        `<span><span class="swatch" style="background:${BANK_COLORS[b]}"></span>${b}</span>`
+      ).join("");
+
+      ["ctrl-bank", "ctrl-function", "ctrl-state", "ctrl-period"].forEach(id => {
+        document.getElementById(id).addEventListener("change", () => {
+          state.bank = document.getElementById("ctrl-bank").value;
+          state.function = document.getElementById("ctrl-function").value;
+          state.geo = document.getElementById("ctrl-state").value;
+          state.period = document.getElementById("ctrl-period").value;
+          renderAll();
+        });
+      });
+    }
+
+    function wilsonRows() {
+      return DATA.workstreams?.skills_org?.technology_share_wilson || [];
+    }
+
+    function functionRows() {
+      const rows = DATA.workstreams?.skills_org?.function_by_bank || [];
+      if (state.geo === "all") return rows;
+      return (DATA.workstreams?.skills_org?.function_by_bank_state_top || [])
+        .filter(r => r.state === state.geo)
+        .map(r => ({ bank: r.bank, bank_label: r.bank_label, function: r.function, n: r.n }));
+    }
+
+    function sharesByBank(rows) {
+      const totals = {};
+      const by = {};
+      rows.forEach(r => {
+        totals[r.bank_label] = (totals[r.bank_label] || 0) + r.n;
+        by[r.bank_label] = by[r.bank_label] || {};
+        by[r.bank_label][r.function] = (by[r.bank_label][r.function] || 0) + r.n;
+      });
+      const out = {};
+      Object.keys(by).forEach(bank => {
+        out[bank] = {};
+        Object.keys(by[bank]).forEach(fn => {
+          out[bank][fn] = {
+            n: by[bank][fn],
+            share: totals[bank] ? by[bank][fn] / totals[bank] : 0,
+            total: totals[bank]
+          };
+        });
+      });
+      return { totals, by: out };
+    }
+
+    function netFlows(selected) {
+      const matrix = DATA.workstreams?.network?.interbank_matrix || [];
+      let inbound = 0, outbound = 0;
+      matrix.forEach(r => {
+        if (r.to === selected) inbound += r.n;
+        if (r.from === selected) outbound += r.n;
+      });
+      return { inbound, outbound, net: inbound - outbound };
+    }
+
+    function renderExecutive() {
+      const wilson = wilsonRows();
+      const selected = wilson.find(r => r.bank_label === state.bank);
+      const peers = wilson.filter(r => r.bank_label !== state.bank);
+      const peerMed = median(peers.map(r => r.share));
+      const gap = selected && peerMed != null ? selected.share - peerMed : null;
+      const intervalsClear = selected && peers.every(p =>
+        selected.wilson_low > p.wilson_high || selected.wilson_high < p.wilson_low
+      );
+      const vsPeers = peers.every(p => selected && selected.share > p.share);
+      const rank = [...wilson].sort((a, b) => b.share - a.share).findIndex(r => r.bank_label === state.bank) + 1;
+
+      let headline = `${state.bank} technology-title share is ${pct(selected?.share)} of titled profiles`;
+      if (peerMed != null) {
+        headline += `, ${gap >= 0 ? pct(gap) + " above" : pct(-gap) + " below"} the peer median (${pct(peerMed)})`;
+      }
+      if (intervalsClear && vsPeers) {
+        headline += ". Wilson 95% intervals do not overlap peers — a capability-mix signal worth investigating for hiring and org design.";
+      } else {
+        headline += ". Treat as a relative market signal; confirm with coverage and role taxonomy before acting.";
+      }
+      document.getElementById("headline").textContent = headline;
+      document.getElementById("headline-sub").textContent =
+        `Selected bank highlighted. Denominator = titled profiles. Snapshot ${(DATA.generated_at || "").slice(0, 10)}.`;
+
+      document.getElementById("kpis").innerHTML = [
+        {
+          value: pct(selected?.share),
+          label: `${state.bank} technology share`,
+          note: `n titled = ${num(selected?.n_titled)} · WI ${pct(selected?.wilson_low)}–${pct(selected?.wilson_high)}`
+        },
+        {
+          value: pct(peerMed),
+          label: "Peer median share",
+          note: "ANZ / NAB / Westpac median of technology-title share"
+        },
+        {
+          value: gap == null ? "n/a" : (gap >= 0 ? "+" : "") + (100 * gap).toFixed(1) + " pp",
+          label: "Gap vs peer median",
+          note: `Rank ${rank} of 4 among observed titled profiles`
+        }
+      ].map(k => `<div class="card" style="padding:.85rem;"><div class="stat-value">${k.value}</div><div class="stat-label">${k.label}</div><div class="stat-note">${k.note}</div></div>`).join("");
+
+      destroyChart("hero");
+      const labels = wilson.map(r => r.bank_label);
+      charts.hero = new Chart(document.getElementById("chart-hero"), {
+        type: "barWithErrorBars",
         data: {
           labels,
-          datasets: [{ label, data: values, backgroundColor: colors[0], borderRadius: 6 }]
+          datasets: [{
+            label: "Technology share %",
+            backgroundColor: labels.map(l => bankColor(l, state.bank)),
+            borderRadius: 6,
+            data: wilson.map(r => ({
+              y: 100 * r.share,
+              yMin: 100 * r.wilson_low,
+              yMax: 100 * r.wilson_high
+            }))
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                afterBody(items) {
+                  const i = items[0].dataIndex;
+                  const r = wilson[i];
+                  return [`n titled: ${num(r.n_titled)}`, `Wilson 95%: ${pct(r.wilson_low)}–${pct(r.wilson_high)}`];
+                }
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: "#5c574e" }, grid: { display: false } },
+            y: {
+              title: { display: true, text: "Share of titled profiles (%)" },
+              ticks: { color: "#5c574e" },
+              grid: { color: "#eee7da" }
+            }
+          }
+        }
+      });
+      document.getElementById("hero-caption").textContent =
+        `Technology titles ÷ titled profiles. Error bars = Wilson 95% intervals. Precision grows with n; large n does not remove LinkedIn selection bias. Generated ${(DATA.generated_at || "").slice(0, 10)}.`;
+      document.getElementById("hero-table").innerHTML = wilson.map(r =>
+        `<tr><td>${r.bank_label}</td><td>${pct(r.share)}</td><td>${pct(r.wilson_low)}</td><td>${pct(r.wilson_high)}</td><td>${num(r.n_titled)}</td></tr>`
+      ).join("");
+    }
+
+    function renderFindings() {
+      const { by } = sharesByBank(functionRows());
+      const sel = by[state.bank] || {};
+      const peerShares = (fn) => BANKS.filter(b => b !== state.bank).map(b => by[b]?.[fn]?.share).filter(v => v != null);
+      const techSel = sel.technology?.share;
+      const techPeer = median(peerShares("technology"));
+      const branchSel = sel.branch?.share;
+      const branchPeer = median(peerShares("branch"));
+
+      document.getElementById("finding-ops-text").textContent =
+        `${state.bank} technology mix is ${pct(techSel)} vs peer median ${pct(techPeer)}; branch mix is ${pct(branchSel)} vs ${pct(branchPeer)}` +
+        (state.geo === "all" ? "." : ` in ${state.geo}.`);
+      document.getElementById("finding-ops-impl").textContent =
+        "Implication: check whether capability investment and location strategy match the observed mix gap.";
+
+      destroyChart("findingOps");
+      const focusFns = ["technology", "risk", "branch", "leadership"];
+      charts.findingOps = new Chart(document.getElementById("chart-finding-ops"), {
+        type: "bar",
+        data: {
+          labels: focusFns.map(prettyFunc),
+          datasets: [{
+            label: state.bank,
+            data: focusFns.map(fn => 100 * (sel[fn]?.share || 0)),
+            backgroundColor: BANK_COLORS[state.bank],
+            borderRadius: 4
+          }, {
+            label: "Peer median",
+            data: focusFns.map(fn => 100 * (median(peerShares(fn)) || 0)),
+            backgroundColor: PEER_COLOR,
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "bottom", labels: { boxWidth: 10, font: { size: 10 } } } },
+          scales: {
+            x: { ticks: { color: "#5c574e", font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: "#5c574e", font: { size: 10 } }, grid: { color: "#eee7da" }, title: { display: true, text: "Share %" } }
+          }
+        }
+      });
+
+      const india = (DATA.india_share || []).find(r => r.bank_label === state.bank);
+      const ppb = (DATA.profiles_per_branch || []).find(r => r.bank_label === state.bank);
+      const topGcc = (DATA.profiles_per_100k || [])[0];
+      document.getElementById("finding-geo-text").textContent =
+        `${state.bank} India share of observed profiles is ${pct(india?.india_share)}; AU footprint density is ${num(ppb?.profiles_per_branch, 1)} profiles per APRA branch. Combined big-four density peaks in ${topGcc?.gcc || "n/a"} (${num(topGcc?.profiles_per_100k, 0)} per 100k).`;
+      document.getElementById("finding-geo-impl").textContent =
+        "Implication: hub resilience and offshore mix should be stress-tested separately from domestic branch coverage.";
+
+      destroyChart("findingGeo");
+      charts.findingGeo = new Chart(document.getElementById("chart-finding-geo"), {
+        type: "bar",
+        data: {
+          labels: (DATA.india_share || []).map(r => r.bank_label),
+          datasets: [{
+            label: "India share %",
+            data: (DATA.india_share || []).map(r => 100 * r.india_share),
+            backgroundColor: (DATA.india_share || []).map(r => bankColor(r.bank_label, state.bank)),
+            borderRadius: 4
+          }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
-            x: { ticks: { color: "#5c574e" }, grid: { display: false } },
-            y: { ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } }
+            x: { ticks: { color: "#5c574e", font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: "#5c574e", font: { size: 10 } }, grid: { color: "#eee7da" }, title: { display: true, text: "Share %" } }
+          }
+        }
+      });
+
+      const flows = netFlows(state.bank);
+      const topSource = (DATA.interbank_moves || []).filter(r => r.to_bank === state.bank)[0];
+      document.getElementById("finding-flow-text").textContent =
+        `${state.bank} net inter-bank flow is ${flows.net >= 0 ? "+" : ""}${num(flows.net)} observed moves (in ${num(flows.inbound)} / out ${num(flows.outbound)})` +
+        (topSource ? `. Largest inbound source: ${topSource.from_bank} (${num(topSource.moves)}).` : ".");
+      document.getElementById("finding-flow-impl").textContent =
+        "Implication: prioritize retention where net outbound is high; target competitor sourcing where inbound already concentrates.";
+
+      destroyChart("findingFlow");
+      const nets = BANKS.map(b => netFlows(b).net);
+      charts.findingFlow = new Chart(document.getElementById("chart-finding-flow"), {
+        type: "bar",
+        data: {
+          labels: BANKS,
+          datasets: [{
+            label: "Net observed moves",
+            data: nets,
+            backgroundColor: BANKS.map(b => bankColor(b, state.bank)),
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: "#5c574e", font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: "#5c574e", font: { size: 10 } }, grid: { color: "#eee7da" }, title: { display: true, text: "Net moves" } }
+          }
+        }
+      });
+
+      document.getElementById("implication-list").innerHTML = [
+        `<li><strong>Capability:</strong> ${state.bank}'s technology mix gap vs peers (${gapText(techSel, techPeer)}) points to org-design and hiring priorities.</li>`,
+        `<li><strong>Sourcing & retention:</strong> net flow ${flows.net >= 0 ? "in favor of" : "against"} ${state.bank} (${num(flows.net)}) should shape competitor targeting and stay interviews.</li>`,
+        `<li><strong>Footprint:</strong> profiles-per-branch is a density proxy only — pair with APRA branch contraction when planning workforce transition.</li>`,
+        `<li><strong>Execution risk:</strong> Wilson intervals quantify sampling precision; LinkedIn coverage bias remains even when intervals are tight.</li>`
+      ].join("");
+    }
+
+    function gapText(sel, peer) {
+      if (sel == null || peer == null) return "n/a";
+      const d = sel - peer;
+      return (d >= 0 ? "+" : "") + (100 * d).toFixed(1) + " pp";
+    }
+
+    function renderOperatingModel() {
+      const rows = functionRows();
+      const { by, totals } = sharesByBank(rows);
+      const funcs = PRIORITY_FUNCS.filter(fn => BANKS.some(b => by[b]?.[fn]));
+      const extras = [...new Set(rows.map(r => r.function))].filter(fn => !funcs.includes(fn) && fn !== "other");
+      const stackFns = [...funcs, ...extras.slice(0, 2), "other"].filter((fn, i, a) => a.indexOf(fn) === i && BANKS.some(b => by[b]?.[fn]));
+
+      const palette = ["#0f4c5c", "#c14953", "#5b8c5a", "#d4a373", "#6b5b95", "#88a2aa", "#b56576", "#8c9a6c", "#4a6fa5", "#a67c52", "#7a8b6f", "#9a6b2f", "#5c574e"];
+      destroyChart("funcMix");
+      charts.funcMix = new Chart(document.getElementById("chart-func-mix"), {
+        type: "bar",
+        data: {
+          labels: BANKS,
+          datasets: stackFns.map((fn, i) => ({
+            label: prettyFunc(fn),
+            data: BANKS.map(b => 100 * (by[b]?.[fn]?.share || 0)),
+            backgroundColor: palette[i % palette.length],
+            stack: "mix"
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "bottom", labels: { boxWidth: 10, font: { size: 10 } } } },
+          scales: {
+            x: { stacked: true, ticks: { color: "#5c574e" }, grid: { display: false } },
+            y: { stacked: true, max: 100, title: { display: true, text: "Share of titled profiles (%)" }, ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } }
+          }
+        }
+      });
+      document.getElementById("func-mix-caption").textContent =
+        state.geo === "all"
+          ? `National titled-profile mix. Totals: ${BANKS.map(b => `${b} n=${num(totals[b])}`).join(" · ")}.`
+          : `${state.geo} titled-profile mix from state top cells. Coverage is incomplete outside top cells.`;
+
+      const peerMed = {};
+      stackFns.forEach(fn => {
+        peerMed[fn] = median(BANKS.filter(b => b !== state.bank).map(b => by[b]?.[fn]?.share).filter(v => v != null));
+      });
+      const heatFns = stackFns.filter(fn => fn !== "other").slice(0, 8);
+      let html = `<table class="heatmap"><thead><tr><th>Function</th><th>${state.bank} share</th><th>Peer median</th><th>Index</th><th>n</th></tr></thead><tbody>`;
+      heatFns.forEach(fn => {
+        const cell = by[state.bank]?.[fn];
+        const share = cell?.share || 0;
+        const med = peerMed[fn];
+        const idx = med ? share / med : null;
+        const sparse = (cell?.n || 0) < MIN_CELL;
+        const bg = idx == null ? "#f0ebe3" : idx >= 1.2 ? "#d9f0e5" : idx <= 0.8 ? "#f3d7d3" : "#f6f4ef";
+        html += `<tr><td>${prettyFunc(fn)}</td><td>${pct(share)}</td><td>${pct(med)}</td><td style="background:${bg}">${idx == null ? "n/a" : idx.toFixed(2)}${sparse ? ' <span class="sparse">sparse</span>' : ""}</td><td>${num(cell?.n)}</td></tr>`;
+      });
+      html += "</tbody></table>";
+      document.getElementById("heatmap").innerHTML = html;
+
+      document.getElementById("func-mix-table").innerHTML = BANKS.flatMap(b =>
+        stackFns.map(fn => {
+          const cell = by[b]?.[fn];
+          if (!cell) return "";
+          return `<tr><td>${b}</td><td>${prettyFunc(fn)}</td><td>${num(cell.n)}</td><td>${pct(cell.share)}</td></tr>`;
+        })
+      ).join("");
+    }
+
+    function renderFlows() {
+      const matrix = DATA.workstreams?.network?.interbank_matrix || [];
+      const total = matrix.reduce((s, r) => s + r.n, 0) || 1;
+      let html = `<table class="flow-matrix"><thead><tr><th>From \\ To</th>${BANKS.map(b => `<th>${b}</th>`).join("")}<th>Net</th></tr></thead><tbody>`;
+      BANKS.forEach(from => {
+        html += `<tr><th>${from}</th>`;
+        BANKS.forEach(to => {
+          if (from === to) {
+            html += `<td class="muted">—</td>`;
+            return;
+          }
+          const cell = matrix.find(r => r.from === from && r.to === to);
+          const n = cell?.n || 0;
+          const share = n / total;
+          const hl = from === state.bank || to === state.bank ? " hl" : "";
+          const intense = Math.min(0.85, 0.12 + share * 8);
+          html += `<td class="${hl}" style="background:rgba(15,76,92,${intense})">${num(n)}<br><span class="muted">${pct(share, 1)}</span></td>`;
+        });
+        const net = netFlows(from).net;
+        html += `<td><strong>${net >= 0 ? "+" : ""}${num(net)}</strong></td></tr>`;
+      });
+      html += "</tbody></table>";
+      document.getElementById("flow-matrix").innerHTML = html;
+      document.getElementById("flow-matrix-caption").textContent =
+        `Cell = observed moves and share of all ${num(total)} mapped inter-bank moves. Selected bank row/column outlined. Eligible history: people with a previous employer mapped (${num(DATA.workstreams?.network?.people_with_previous_employer)}).`;
+
+      const inflows = matrix.filter(r => r.to === state.bank);
+      destroyChart("flowSankey");
+      if (inflows.length) {
+        charts.flowSankey = new Chart(document.getElementById("chart-flow-sankey"), {
+          type: "sankey",
+          data: {
+            datasets: [{
+              label: `Into ${state.bank}`,
+              data: inflows.map(r => ({ from: r.from, to: r.to, flow: r.n })),
+              colorFrom: (c) => BANK_COLORS[c.dataset.data[c.dataIndex].from] || PEER_COLOR,
+              colorTo: () => BANK_COLORS[state.bank],
+              colorMode: "gradient"
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.raw.from} → ${ctx.raw.to}: ${num(ctx.raw.flow)}` } } }
+          }
+        });
+      }
+
+      const feeders = (DATA.workstreams?.network?.external_feeders_top || [])
+        .filter(r => r.bank_label === state.bank && r.from_company && r.from_company !== "-")
+        .slice(0, 10);
+      document.getElementById("feeders-table").innerHTML = feeders.map(r =>
+        `<tr><td>${r.from_company}</td><td>${num(r.n)}</td></tr>`
+      ).join("") || `<tr><td colspan="2">No external feeders for ${state.bank}</td></tr>`;
+    }
+
+    function renderCareer() {
+      const dest = state.function;
+      const transitions = (DATA.workstreams?.career_paths?.function_transitions || [])
+        .filter(r => r.bank_label === state.bank && r.to_function === dest);
+      document.getElementById("career-sankey-title").textContent =
+        `Prior function → ${prettyFunc(dest)} at ${state.bank}`;
+      document.getElementById("career-caption").textContent =
+        `Observed prior-function labels among people now in ${prettyFunc(dest)} at ${state.bank}. Cells with n < ${MIN_CELL} are sparse.`;
+
+      destroyChart("careerSankey");
+      if (transitions.length) {
+        charts.careerSankey = new Chart(document.getElementById("chart-career-sankey"), {
+          type: "sankey",
+          data: {
+            datasets: [{
+              label: "Career paths",
+              data: transitions.slice(0, 12).map(r => ({
+                from: prettyFunc(r.from_function),
+                to: prettyFunc(r.to_function),
+                flow: r.n
+              })),
+              colorFrom: () => PEER_COLOR,
+              colorTo: () => BANK_COLORS[state.bank],
+              colorMode: "gradient"
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+      }
+
+      document.getElementById("career-table").innerHTML = transitions.map(r =>
+        `<tr><td>${prettyFunc(r.from_function)}</td><td>${prettyFunc(r.to_function)}</td><td>${num(r.n)}</td><td>${r.n < MIN_CELL ? "sparse" : ""}</td></tr>`
+      ).join("") || `<tr><td colspan="4">No transitions into ${prettyFunc(dest)} for ${state.bank}</td></tr>`;
+
+      const tenure = (DATA.workstreams?.career_paths?.tenure_into_current_function || [])
+        .filter(r => r.bank_label === state.bank)
+        .sort((a, b) => b.n - a.n)
+        .slice(0, 10);
+      destroyChart("tenure");
+      charts.tenure = new Chart(document.getElementById("chart-tenure"), {
+        type: "bar",
+        data: {
+          labels: tenure.map(r => prettyFunc(r.to_function)),
+          datasets: [{
+            label: "Median prior tenure (months)",
+            data: tenure.map(r => r.median_prior_tenure_months),
+            backgroundColor: tenure.map(r => r.to_function === dest ? BANK_COLORS[state.bank] : PEER_COLOR),
+            borderRadius: 4
+          }]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                afterLabel: (ctx) => {
+                  const r = tenure[ctx.dataIndex];
+                  return `n=${num(r.n)}${r.n < MIN_CELL ? " (sparse)" : ""}`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: { title: { display: true, text: "Months" }, ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } },
+            y: { ticks: { color: "#5c574e" }, grid: { display: false } }
           }
         }
       });
     }
 
-    function lineChart(el, labels, series) {
-      return new Chart(el, {
+    function renderBranch() {
+      const trend = DATA.branch_trend || DATA.workstreams?.public_overlays?.branch_trend || [];
+      const years = ["2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"];
+      const base = {};
+      trend.forEach(r => {
+        if (String(r.year) === "2017") base[r.bank_label] = r.branches;
+      });
+      destroyChart("branchIndex");
+      charts.branchIndex = new Chart(document.getElementById("chart-branch-index"), {
         type: "line",
         data: {
-          labels,
-          datasets: series.map((s, i) => ({
-            label: s.name,
-            data: s.data,
-            borderColor: colors[i % colors.length],
-            backgroundColor: colors[i % colors.length],
+          labels: years,
+          datasets: BANKS.map(b => ({
+            label: b,
+            data: years.map(y => {
+              const row = trend.find(r => r.bank_label === b && String(r.year) === y);
+              if (!row || !base[b]) return null;
+              return 100 * row.branches / base[b];
+            }),
+            borderColor: bankColor(b, state.bank),
+            backgroundColor: bankColor(b, state.bank),
+            borderWidth: b === state.bank ? 3 : 1.5,
+            tension: 0.25,
+            pointRadius: b === state.bank ? 3 : 2
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "bottom" } },
+          scales: {
+            x: { ticks: { color: "#5c574e" }, grid: { display: false } },
+            y: { title: { display: true, text: "Index (2017 = 100)" }, ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } }
+          }
+        }
+      });
+      document.getElementById("branch-index-table").innerHTML = trend
+        .filter(r => years.includes(String(r.year)))
+        .map(r => {
+          const idx = base[r.bank_label] ? 100 * r.branches / base[r.bank_label] : null;
+          return `<tr><td>${r.bank_label}</td><td>${r.year}</td><td>${num(r.branches)}</td><td>${idx == null ? "n/a" : idx.toFixed(1)}</td></tr>`;
+        }).join("");
+
+      // State quadrant: profiles_per_branch vs technology share in state
+      const ppbState = DATA.workstreams?.public_overlays?.profiles_per_branch_state || [];
+      const fnState = DATA.workstreams?.skills_org?.function_by_bank_state_top || [];
+      const points = [];
+      BANKS.forEach(bank => {
+        const states = [...new Set(ppbState.filter(r => r.bank_label === bank && !r.sparse).map(r => r.state))];
+        states.forEach(st => {
+          const dens = ppbState.find(r => r.bank_label === bank && r.state === st);
+          const cells = fnState.filter(r => r.bank_label === bank && r.state === st);
+          const total = cells.reduce((s, r) => s + r.n, 0);
+          const tech = cells.filter(r => r.function === "technology").reduce((s, r) => s + r.n, 0);
+          if (!dens || !total) return;
+          points.push({
+            x: dens.profiles_per_branch,
+            y: 100 * tech / total,
+            bank,
+            state: st,
+            n: total
+          });
+        });
+      });
+      destroyChart("branchQuad");
+      charts.branchQuad = new Chart(document.getElementById("chart-branch-quad"), {
+        type: "scatter",
+        data: {
+          datasets: BANKS.map(b => ({
+            label: b,
+            data: points.filter(p => p.bank === b).map(p => ({ x: p.x, y: p.y, state: p.state })),
+            backgroundColor: bankColor(b, state.bank),
+            pointRadius: b === state.bank ? 6 : 4
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: "bottom" },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label} ${ctx.raw.state}: density ${num(ctx.raw.x, 1)}, tech ${ctx.raw.y.toFixed(1)}%`
+              }
+            }
+          },
+          scales: {
+            x: { title: { display: true, text: "Observed profiles per branch" }, ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } },
+            y: { title: { display: true, text: "Technology share in state (%)" }, ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } }
+          }
+        }
+      });
+    }
+
+    function renderGeo() {
+      const ppbState = (DATA.workstreams?.public_overlays?.profiles_per_branch_state || [])
+        .filter(r => r.bank_label === state.bank);
+      const maxP = Math.max(...ppbState.map(r => r.profiles || 0), 1);
+      const byState = Object.fromEntries(ppbState.map(r => [r.state, r]));
+      // Simplified AU state map (schematic rectangles)
+      const layout = [
+        { id: "WA", x: 10, y: 80, w: 70, h: 120 },
+        { id: "NT", x: 80, y: 30, w: 55, h: 70 },
+        { id: "SA", x: 80, y: 100, w: 55, h: 70 },
+        { id: "QLD", x: 135, y: 20, w: 70, h: 100 },
+        { id: "NSW", x: 135, y: 120, w: 55, h: 55 },
+        { id: "VIC", x: 135, y: 175, w: 45, h: 35 },
+        { id: "TAS", x: 150, y: 220, w: 30, h: 25 },
+        { id: "ACT", x: 175, y: 145, w: 18, h: 18 }
+      ];
+      const svg = layout.map(s => {
+        const row = byState[s.id];
+        const profiles = row?.profiles || 0;
+        const t = profiles / maxP;
+        const fill = profiles ? `rgba(193,73,83,${0.15 + 0.75 * t})` : "#efeae1";
+        const selected = state.geo === s.id;
+        return `<g>
+          <rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="6" fill="${fill}" stroke="${selected ? "#0f4c5c" : "#ddd6c8}" stroke-width="${selected ? 2.5 : 1}" />
+          <text x="${s.x + s.w / 2}" y="${s.y + s.h / 2}" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1c1a16">${s.id}</text>
+          <text x="${s.x + s.w / 2}" y="${s.y + s.h / 2 + 14}" text-anchor="middle" font-size="9" fill="#5c574e">${profiles ? num(profiles) : "—"}</text>
+        </g>`;
+      }).join("");
+      document.getElementById("state-map").innerHTML =
+        `<svg viewBox="0 0 230 260" role="img" aria-label="State footprint for ${state.bank}">${svg}</svg>`;
+      document.getElementById("state-map-caption").textContent =
+        `Observed ${state.bank} profiles by state from the LinkedIn snapshot joined to APRA branch geography. Darker = more observed profiles. Footprint density (profiles/branch) is a proxy, not productivity.`;
+
+      destroyChart("gcc");
+      const gcc = DATA.profiles_per_100k || [];
+      charts.gcc = new Chart(document.getElementById("chart-gcc"), {
+        type: "bar",
+        data: {
+          labels: gcc.map(r => r.gcc.replace("Greater ", "")),
+          datasets: [{
+            label: "Profiles per 100k",
+            data: gcc.map(r => r.profiles_per_100k),
+            backgroundColor: BANK_COLORS.CBA,
+            borderRadius: 4
+          }]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                afterLabel: (ctx) => {
+                  const r = gcc[ctx.dataIndex];
+                  return [`profiles ${num(r.profiles)}`, `population ${num(r.population)}`, `year ${r.year}`];
+                }
+              }
+            }
+          },
+          scales: {
+            x: { title: { display: true, text: "Observed profiles per 100,000 residents" }, ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } },
+            y: { ticks: { color: "#5c574e" }, grid: { display: false } }
+          }
+        }
+      });
+
+      const hubs = (DATA.workstreams?.skills_org?.india_hubs || [])
+        .filter(r => r.bank_label === state.bank)
+        .sort((a, b) => b.n - a.n)
+        .slice(0, 12);
+      document.getElementById("india-hubs-table").innerHTML = hubs.map(r =>
+        `<tr><td>${r.bank_label}</td><td>${prettyFunc(r.function)}</td><td>${r.gcc || "City not mapped"}</td><td>${num(r.n)}</td></tr>`
+      ).join("") || `<tr><td colspan="4">No India hub rows for ${state.bank}</td></tr>`;
+    }
+
+    function renderEducation() {
+      const edu = DATA.education_summary || [];
+      destroyChart("edu");
+      charts.edu = new Chart(document.getElementById("chart-edu"), {
+        type: "bar",
+        data: {
+          labels: edu.map(r => r.bank_label),
+          datasets: [
+            {
+              label: "AU provider share %",
+              data: edu.map(r => 100 * r.au_provider_share),
+              backgroundColor: edu.map(r => bankColor(r.bank_label, state.bank)),
+              borderRadius: 4
+            },
+            {
+              label: "Go8 share %",
+              data: edu.map(r => 100 * r.go8_share),
+              backgroundColor: edu.map(r => r.bank_label === state.bank ? "#7a2f36" : "#ddd6c8"),
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "bottom" } },
+          scales: {
+            x: { ticks: { color: "#5c574e" }, grid: { display: false } },
+            y: { title: { display: true, text: "Share of education records (%)" }, ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } }
+          }
+        }
+      });
+
+      const schools = (DATA.top_au_schools || [])
+        .filter(r => r.bank_label === state.bank)
+        .slice(0, 10);
+      document.getElementById("schools-table").innerHTML = schools.map(r =>
+        `<tr><td>${r.institution}</td><td>${num(r.records)}</td></tr>`
+      ).join("") || `<tr><td colspan="2">No institution rows for ${state.bank}</td></tr>`;
+    }
+
+    function renderStarts() {
+      const rows = (DATA.hiring_year || []).filter(r => yearInPeriod(r.hire_year, state.period));
+      const years = [...new Set(rows.map(r => String(r.hire_year)))].sort();
+      const totals = {};
+      rows.forEach(r => {
+        totals[r.bank_label] = (totals[r.bank_label] || 0) + r.hires;
+      });
+      destroyChart("starts");
+      charts.starts = new Chart(document.getElementById("chart-starts"), {
+        type: "line",
+        data: {
+          labels: years,
+          datasets: BANKS.map(b => ({
+            label: b,
+            data: years.map(y => {
+              const row = rows.find(r => r.bank_label === b && String(r.hire_year) === y);
+              if (!row || !totals[b]) return null;
+              return 100 * row.hires / totals[b];
+            }),
+            borderColor: bankColor(b, state.bank),
+            backgroundColor: bankColor(b, state.bank),
+            borderWidth: b === state.bank ? 3 : 1.5,
             tension: 0.25,
             pointRadius: 2
           }))
@@ -226,122 +1183,90 @@
           plugins: { legend: { position: "bottom" } },
           scales: {
             x: { ticks: { color: "#5c574e" }, grid: { display: false } },
-            y: { ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } }
+            y: { title: { display: true, text: "Share of bank's observed starts (%)" }, ticks: { color: "#5c574e" }, grid: { color: "#eee7da" } }
           }
         }
       });
+      document.getElementById("starts-caption").textContent =
+        `Each line sums to ~100% within the selected period for that bank. Period filter: ${state.period === "all" ? "2018–2025" : state.period}.`;
     }
 
-    async function main() {
-      const res = await fetch("./data/dashboard.json", { cache: "force-cache" });
-      const data = await res.json();
-      document.getElementById("title").textContent = data.title;
-      document.getElementById("subtitle").textContent = data.subtitle;
-      document.getElementById("generated").textContent = "Generated " + (data.generated_at || "").slice(0, 10);
-      document.getElementById("caveat").textContent = data.caveat;
-
+    function renderEvidence() {
+      document.getElementById("caveat").textContent = DATA.caveat || "";
       const rankingBody = document.getElementById("ranking-body");
-      data.ranking.forEach((row, idx) => {
+      rankingBody.innerHTML = "";
+      (DATA.ranking || []).forEach((row, idx) => {
         const tr = document.createElement("tr");
         tr.innerHTML = `<td>${idx + 1}</td><td>${row.title}</td><td>${row.score}</td>
           <td><span class="tier ${row.tier}">${row.tier}</span></td>
           <td>${pct(row.coverage)}</td><td>${num(row.median_cell_n)}</td><td>${pct(row.sparse_cell_share)}</td>`;
         rankingBody.appendChild(tr);
       });
-
-      const cba = (data.banks || []).find(b => b.bank === "cba") || {};
-      const tech = (data.tech_share || []).find(b => b.bank === "cba") || {};
-      const india = (data.india_share || []).find(b => b.bank === "cba") || {};
-      const branch = (data.profiles_per_branch || []).find(b => b.bank === "cba") || {};
-      document.getElementById("stats").innerHTML = [
-        ["CBA profiles", num(cba.profiles)],
-        ["CBA tech titles", pct(tech.technology_share)],
-        ["CBA India share", pct(india.india_share)],
-        ["CBA profiles / branch", num(branch.profiles_per_branch, 1)]
-      ].map(([label, value]) => `<div class="card"><div class="stat-value">${value}</div><div class="stat-label">${label}</div></div>`).join("");
-
-      document.getElementById("claims").innerHTML = (data.headline_defensible || [])
-        .map(c => `<li>${c.claim} <span class="muted">(n=${num(c.n)})</span></li>`)
-        .join("");
-
-      const strongest = document.getElementById("strongest");
-      const primary = (data.ranking || []).filter(r => r.id !== "decision_products");
-      strongest.innerHTML = primary.map(r => {
-        const why = (r.notes || []).slice(0, 2).join(" ");
-        return `<li><strong>${r.title}</strong> — score ${r.score} (${r.tier}). ${why}</li>`;
-      }).join("");
-
-      barChart(
-        document.getElementById("chart-banks"),
-        (data.banks || []).map(b => b.bank_label || b.bank),
-        (data.banks || []).map(b => b.profiles),
-        "Profiles"
-      );
-      barChart(
-        document.getElementById("chart-tech"),
-        (data.tech_share || []).map(b => b.bank_label),
-        (data.tech_share || []).map(b => 100 * b.technology_share),
-        "Technology %"
-      );
-      barChart(
-        document.getElementById("chart-india"),
-        (data.india_share || []).map(b => b.bank_label),
-        (data.india_share || []).map(b => 100 * b.india_share),
-        "India %"
-      );
-      barChart(
-        document.getElementById("chart-branch"),
-        (data.profiles_per_branch || []).map(b => b.bank_label),
-        (data.profiles_per_branch || []).map(b => b.profiles_per_branch),
-        "Profiles / branch"
-      );
-      barChart(
-        document.getElementById("chart-finance"),
-        (data.state_vs_finance || []).map(b => b.state),
-        (data.state_vs_finance || []).map(b => 100 * (b.share_of_finance_employment || 0)),
-        "Share of finance employment %"
-      );
-
-      const years = ["2018","2019","2020","2021","2022","2023","2024","2025"];
-      const banks = ["ANZ","CBA","NAB","Westpac"];
-      const hiringMap = {};
-      (data.hiring_year || []).forEach(r => {
-        hiringMap[r.bank_label] = hiringMap[r.bank_label] || {};
-        hiringMap[r.bank_label][String(r.hire_year)] = r.hires;
-      });
-      lineChart(
-        document.getElementById("chart-hiring"),
-        years,
-        banks.map(name => ({ name, data: years.map(y => hiringMap[name]?.[y] || 0) }))
-      );
-
-      const branchYears = ["2017","2018","2019","2020","2021","2022","2023","2024","2025"];
-      const branchMap = {};
-      (data.branch_trend || []).forEach(r => {
-        branchMap[r.bank_label] = branchMap[r.bank_label] || {};
-        branchMap[r.bank_label][String(r.year)] = r.branches;
-      });
-      lineChart(
-        document.getElementById("chart-branch-trend"),
-        branchYears,
-        banks.map(name => ({ name, data: branchYears.map(y => branchMap[name]?.[y] || 0) }))
-      );
-
-      document.getElementById("moves-body").innerHTML = (data.interbank_moves || []).slice(0, 10)
-        .map(r => `<tr><td>${r.from_bank}</td><td>${r.to_bank}</td><td>${num(r.moves)}</td></tr>`)
-        .join("");
+      const method = DATA.method || {};
+      document.getElementById("method-list").innerHTML = Object.entries(method)
+        .map(([k, v]) => `<li><strong>${k}:</strong> ${v}</li>`).join("");
+      const sources = DATA.sources || {};
+      document.getElementById("sources-list").innerHTML = Object.entries(sources)
+        .map(([k, v]) => typeof v === "string" && v.startsWith("http")
+          ? `<li><strong>${k}:</strong> <a href="${v}">${v}</a></li>`
+          : `<li><strong>${k}:</strong> ${v}</li>`).join("");
+      document.getElementById("claims").innerHTML = (DATA.headline_defensible || [])
+        .map(c => `<li>${c.claim} <span class="muted">(n=${num(c.n)})</span></li>`).join("");
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      if (window.Chart) main();
-      else document.addEventListener("DOMContentLoaded", main);
-    });
-    // Chart.js is deferred; wait for it
-    function waitChart() {
-      if (window.Chart) main();
-      else setTimeout(waitChart, 30);
+    function renderAll() {
+      renderExecutive();
+      renderFindings();
+      renderOperatingModel();
+      renderFlows();
+      renderCareer();
+      renderBranch();
+      renderGeo();
+      renderEducation();
+      renderStarts();
     }
-    waitChart();
+
+    async function main() {
+      if (started) return;
+      started = true;
+      const loading = document.getElementById("loading");
+      const error = document.getElementById("error");
+      const content = document.getElementById("content");
+      try {
+        if (!window.Chart) throw new Error("Chart.js failed to load");
+        const res = await fetch("./data/dashboard.json", { cache: "no-cache" });
+        if (!res.ok) throw new Error(`Could not load dashboard.json (${res.status})`);
+        DATA = await res.json();
+        document.getElementById("title").textContent = DATA.title || "Big-four bank workforce signals";
+        document.getElementById("subtitle").textContent = DATA.subtitle || "";
+        document.getElementById("generated").textContent = "Generated " + (DATA.generated_at || "").slice(0, 10);
+        fillControls();
+        renderEvidence();
+        renderAll();
+        loading.classList.add("hidden");
+        content.classList.remove("hidden");
+      } catch (err) {
+        loading.classList.add("hidden");
+        error.textContent = "Dashboard failed to load: " + (err && err.message ? err.message : String(err));
+        error.classList.remove("hidden");
+      }
+    }
+
+    function waitForChart(attempt) {
+      if (window.Chart) {
+        main();
+        return;
+      }
+      if ((attempt || 0) > 100) {
+        document.getElementById("loading").classList.add("hidden");
+        const error = document.getElementById("error");
+        error.textContent = "Dashboard failed to load: Chart.js did not become available.";
+        error.classList.remove("hidden");
+        return;
+      }
+      setTimeout(() => waitForChart((attempt || 0) + 1), 40);
+    }
+    waitForChart(0);
   </script>
 </body>
 </html>

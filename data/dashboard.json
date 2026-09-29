@@ -887,6 +887,248 @@
       "bank_label": "CBA"
     }
   ],
+  "top_au_schools": [
+    {
+      "bank": "anz",
+      "institution": "Monash University",
+      "records": 1237,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "institution": "University of Melbourne",
+      "records": 907,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "institution": "RMIT University",
+      "records": 853,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "institution": "Deakin University",
+      "records": 645,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "institution": "Victoria University of Wellington",
+      "records": 482,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "institution": "Swinburne University of Technology",
+      "records": 457,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "institution": "La Trobe University",
+      "records": 338,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "institution": "Victoria University",
+      "records": 301,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "institution": "University of Sydney",
+      "records": 214,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "anz",
+      "institution": "Macquarie University",
+      "records": 198,
+      "bank_label": "ANZ"
+    },
+    {
+      "bank": "nab",
+      "institution": "Monash University",
+      "records": 1594,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "institution": "RMIT University",
+      "records": 1227,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "institution": "University of Melbourne",
+      "records": 1042,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "institution": "Deakin University",
+      "records": 791,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "institution": "Swinburne University of Technology",
+      "records": 749,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "institution": "La Trobe University",
+      "records": 442,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "institution": "Victoria University",
+      "records": 409,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "institution": "Macquarie University",
+      "records": 336,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "institution": "University of Sydney",
+      "records": 324,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "nab",
+      "institution": "UNSW",
+      "records": 250,
+      "bank_label": "NAB"
+    },
+    {
+      "bank": "westpac",
+      "institution": "Macquarie University",
+      "records": 463,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "institution": "UNSW",
+      "records": 432,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "institution": "University of Sydney",
+      "records": 422,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "institution": "University of Technology Sydney",
+      "records": 394,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "institution": "Monash University",
+      "records": 247,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "institution": "Western Sydney University",
+      "records": 202,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "institution": "Deakin University",
+      "records": 197,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "institution": "University of South Australia",
+      "records": 193,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "institution": "RMIT University",
+      "records": 150,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "westpac",
+      "institution": "University of Melbourne",
+      "records": 148,
+      "bank_label": "Westpac"
+    },
+    {
+      "bank": "cba",
+      "institution": "UNSW",
+      "records": 1236,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "institution": "Macquarie University",
+      "records": 1154,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "institution": "University of Sydney",
+      "records": 1101,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "institution": "University of Technology Sydney",
+      "records": 934,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "institution": "Western Sydney University",
+      "records": 606,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "institution": "Monash University",
+      "records": 605,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "institution": "University of Melbourne",
+      "records": 427,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "institution": "RMIT University",
+      "records": 423,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "institution": "Chartered Accountants Australia and New Zealand",
+      "records": 381,
+      "bank_label": "CBA"
+    },
+    {
+      "bank": "cba",
+      "institution": "Deakin University",
+      "records": 335,
+      "bank_label": "CBA"
+    }
+  ],
   "workstreams": {
     "career_paths": {
       "id": "career_paths",
