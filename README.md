@@ -4,7 +4,7 @@ Static aggregate dashboard for ANZ / CBA / NAB / Westpac LinkedIn workforce sign
 
 **Live page:** https://brettlim2.github.io/big-four-workforce/
 
-No person-level data is published. Charts and tables are built from `docs/data/dashboard.json`.
+No person-level data is published. Charts and tables are built from `data/dashboard.json`.
 
 ## Defensibility ranking (this release)
 
@@ -27,4 +27,4 @@ Primary analyses to trust for public claims: **function mix**, **public overlays
 bash scripts/build_dashboard.sh
 ```
 
-GitHub Pages serves the `docs/` folder from `main`.
+GitHub Pages serves the site root from `main`.
